@@ -198,6 +198,11 @@ export function BookingForm({ cars }: { cars: Car[] }) {
   const submitDisabled =
     submitting || availability.status === "unavailable" || belowMinimum;
 
+  // With one car there's nothing to choose, so the picker step is dropped and
+  // the remaining steps renumber rather than starting at "2".
+  const multiCar = cars.length > 1;
+  const step = (n: number) => String(multiCar ? n : n - 1);
+
   return (
     <form onSubmit={handleSubmit} noValidate className="grid gap-10 lg:grid-cols-[1fr_22rem]">
       <div className="space-y-10">
@@ -211,6 +216,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
         )}
 
         {/* ------------------------------------------------------- 1. The car */}
+        {multiCar ? (
         <fieldset>
           <Legend step="1" title="Choose your car" />
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -255,10 +261,43 @@ export function BookingForm({ cars }: { cars: Car[] }) {
           </div>
           {errors.carId && <p className="field-error">{errors.carId}</p>}
         </fieldset>
+        ) : (
+          car && (
+            <div
+              className="flex items-center gap-4 rounded-xl border-[1.5px] border-line p-5"
+              style={{ backgroundColor: `${car.accent}14` }}
+            >
+              <span
+                aria-hidden
+                className="h-12 w-12 shrink-0 rounded-xl"
+                style={{ backgroundColor: car.accent }}
+              />
+              <div className="min-w-0">
+                <p className="text-[0.7rem] font-bold uppercase tracking-[0.12em] text-muted">
+                  You're booking
+                </p>
+                <p className="font-display text-xl font-extrabold">
+                  {car.name}
+                </p>
+                <p className="text-sm text-muted">
+                  {car.theme} · {car.seats} seats · {car.transmission}
+                </p>
+              </div>
+              <p className="ml-auto shrink-0 text-right">
+                <span className="font-display text-xl font-extrabold">
+                  {formatMoney(car.dailyRate)}
+                </span>
+                <span className="block text-xs font-semibold text-muted">
+                  per day
+                </span>
+              </p>
+            </div>
+          )
+        )}
 
         {/* ----------------------------------------------------- 2. The dates */}
         <fieldset>
-          <Legend step="2" title="When do you need it?" />
+          <Legend step={step(2)} title="When do you need it?" />
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             <Field label="Pick-up date" error={errors.startDate} required>
               <input
@@ -345,7 +384,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
 
         {/* -------------------------------------------------- 3. The occasion */}
         <fieldset>
-          <Legend step="3" title="Tell us about the occasion" />
+          <Legend step={step(3)} title="Tell us about the occasion" />
           <div className="mt-5 space-y-4">
             <Field label="What's it for?" error={errors.occasion}>
               <select
@@ -414,7 +453,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
 
         {/* ---------------------------------------------------- 4. Your details */}
         <fieldset>
-          <Legend step="4" title="Your details" />
+          <Legend step={step(4)} title="Your details" />
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <Field label="Full name" error={errors.name} required>

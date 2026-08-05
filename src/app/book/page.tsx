@@ -25,8 +25,9 @@ export default async function BookPage() {
             Let's get you booked
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-2">
-            Tell us which car and when. We'll check it's free, prep it for your
-            occasion, and email your confirmation within 24 hours.
+            {cars.length === 1
+              ? "Tell us when you need it. We'll check the dates are free, prep the car for your occasion, and email your confirmation within 24 hours."
+              : "Tell us which car and when. We'll check it's free, prep it for your occasion, and email your confirmation within 24 hours."}
           </p>
         </div>
       </section>

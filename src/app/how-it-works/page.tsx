@@ -1,23 +1,38 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { getActiveCars } from "@/lib/fleet";
 import { formatMoney, site } from "@/lib/site";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "How it works",
   description: `How renting a themed Kei car from ${site.name} works, from request to return.`,
 };
 
-const STEPS = [
+/** `solo*` variants are used when the fleet is a single car. */
+interface Step {
+  n: string;
+  title: string;
+  copy: string;
+  soloTitle?: string;
+  soloCopy?: string;
+}
+
+const STEPS: Step[] = [
   {
     n: "01",
     title: "Find your car",
     copy: "Browse the fleet and pick the theme that fits the occasion. Every listing shows the real daily rate, the weekend rate, seating and what's included — nothing is hidden until checkout.",
+    soloTitle: "Take a look at the car",
+    soloCopy: "The listing shows the real daily rate, the weekend rate, seating and exactly what's included — nothing is hidden until checkout.",
   },
   {
     n: "02",
     title: "Request your dates",
     copy: "Choose your pick-up and drop-off, tell us what you're celebrating, and add delivery if you'd like the car brought to you. The form shows your estimated total as you go.",
+    soloCopy: "Choose your pick-up and drop-off, tell us what you're celebrating, and add delivery if you'd like the car brought to you. The form checks the dates are free and shows your estimated total as you go.",
   },
   {
     n: "03",
@@ -41,7 +56,10 @@ const STEPS = [
   },
 ];
 
-export default function HowItWorksPage() {
+export default async function HowItWorksPage() {
+  const cars = await getActiveCars();
+  const solo = cars.length === 1;
+
   return (
     <>
       <section className="border-b border-line bg-paper-2 bg-dots py-14">
@@ -65,10 +83,10 @@ export default function HowItWorksPage() {
                 {step.n}
               </span>
               <h2 className="mt-3 font-display text-xl font-extrabold">
-                {step.title}
+                {solo ? (step.soloTitle ?? step.title) : step.title}
               </h2>
               <p className="mt-2.5 text-sm leading-relaxed text-muted">
-                {step.copy}
+                {solo ? (step.soloCopy ?? step.copy) : step.copy}
               </p>
             </li>
           ))}

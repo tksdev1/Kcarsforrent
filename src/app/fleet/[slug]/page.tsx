@@ -61,7 +61,7 @@ export default async function CarPage({ params }: PageProps) {
           href="/fleet"
           className="inline-flex items-center gap-1.5 text-sm font-bold text-muted transition-colors hover:text-brand"
         >
-          <span aria-hidden>←</span> All cars
+          <span aria-hidden>←</span> Back to the fleet
         </Link>
       </div>
 

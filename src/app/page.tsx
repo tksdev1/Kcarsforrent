@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { CarCard } from "@/components/CarCard";
+import { FeaturedCar } from "@/components/FeaturedCar";
 import { KeiVan } from "@/components/KeiVan";
 import { getActiveCars } from "@/lib/fleet";
 import { formatMoney, site } from "@/lib/site";
@@ -16,11 +17,22 @@ const OCCASIONS = [
   { emoji: "✨", title: "Just because", copy: "You don't actually need a reason." },
 ];
 
-const STEPS = [
+/** `solo*` variants are used when the fleet is a single car. */
+interface Step {
+  n: string;
+  title: string;
+  copy: string;
+  soloTitle?: string;
+  soloCopy?: string;
+}
+
+const STEPS: Step[] = [
   {
     n: "01",
     title: "Pick your car and dates",
+    soloTitle: "Tell us your dates",
     copy: "Browse the fleet, find the theme that fits your occasion, and tell us when you need it. Every car shows its real daily rate up front — no hidden fees.",
+    soloCopy: "Tell us when you need the car and what you're celebrating. The real daily rate is shown up front, and the booking form works out your total as you go — no hidden fees.",
   },
   {
     n: "02",
@@ -41,6 +53,25 @@ export default async function HomePage() {
     ? Math.min(...cars.map((car) => car.dailyRate))
     : 0;
 
+  // With a single car, "1 car in the fleet" is a weak thing to lead with — show
+  // that car's own specs instead.
+  const soloCar = cars.length === 1 ? cars[0] : null;
+
+  const stats = soloCar
+    ? [
+        { label: "Daily rate from", value: formatMoney(soloCar.dailyRate) },
+        { label: "Seats", value: String(soloCar.seats) },
+        { label: "Delivery", value: "Available" },
+      ]
+    : [
+        { label: "Cars in the fleet", value: String(cars.length) },
+        {
+          label: "Daily rates from",
+          value: fromPrice ? formatMoney(fromPrice) : "—",
+        },
+        { label: "Delivery", value: "Available" },
+      ];
+
   return (
     <>
       {/* ---------------------------------------------------------------- Hero */}
@@ -59,8 +90,9 @@ export default async function HomePage() {
             </h1>
 
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-2">
-              A one-of-a-kind fleet of themed Japanese micro vans, built for the
-              occasions worth remembering. Small in size — enormous in character.
+              {soloCar
+                ? "A one-of-a-kind themed Japanese micro van, built for the occasions worth remembering. Small in size — enormous in character."
+                : "A one-of-a-kind fleet of themed Japanese micro vans, built for the occasions worth remembering. Small in size — enormous in character."}
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
@@ -73,14 +105,7 @@ export default async function HomePage() {
             </div>
 
             <dl className="mt-12 flex flex-wrap gap-x-10 gap-y-5">
-              {[
-                { label: "Cars in the fleet", value: String(cars.length) },
-                {
-                  label: "Daily rates from",
-                  value: fromPrice ? formatMoney(fromPrice) : "—",
-                },
-                { label: "Delivery", value: "Available" },
-              ].map((stat) => (
+              {stats.map((stat) => (
                 <div key={stat.label}>
                   <dt className="text-xs font-bold uppercase tracking-[0.12em] text-muted">
                     {stat.label}
@@ -145,17 +170,23 @@ export default async function HomePage() {
         <div className="container-page">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="eyebrow">The fleet</p>
+              <p className="eyebrow">{soloCar ? "The car" : "The fleet"}</p>
               <h2 className="mt-4 font-display text-4xl font-extrabold sm:text-5xl">
-                Pick your character
+                {soloCar ? `Meet ${soloCar.name}` : "Pick your character"}
               </h2>
             </div>
-            <Link href="/fleet" className="btn btn-ghost bg-white">
-              See all {cars.length} cars
-            </Link>
+            {!soloCar && cars.length > 0 && (
+              <Link href="/fleet" className="btn btn-ghost bg-white">
+                See all {cars.length} cars
+              </Link>
+            )}
           </div>
 
-          {featured.length > 0 ? (
+          {soloCar ? (
+            <div className="mt-12">
+              <FeaturedCar car={soloCar} />
+            </div>
+          ) : featured.length > 0 ? (
             <div className="mt-12 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
               {featured.map((car, i) => (
                 <CarCard key={car.id} car={car} priority={i === 0} />
@@ -183,10 +214,10 @@ export default async function HomePage() {
                 {step.n}
               </span>
               <h3 className="mt-3 font-display text-xl font-extrabold">
-                {step.title}
+                {soloCar ? (step.soloTitle ?? step.title) : step.title}
               </h3>
               <p className="mt-2.5 text-sm leading-relaxed text-muted">
-                {step.copy}
+                {soloCar ? (step.soloCopy ?? step.copy) : step.copy}
               </p>
             </li>
           ))}

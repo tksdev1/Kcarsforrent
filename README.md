@@ -14,15 +14,15 @@ online booking and automatic confirmation emails to both the customer and the ow
 
 **For customers**
 
-- Browse the fleet with real rates, photos, seating and features
-- Pick a car and dates, with a live availability check and a running price estimate
+- See the car with real rates, photos, seating and features
+- Pick dates, with a live availability check and a running price estimate
 - Submit a booking request and get an instant confirmation email
 
 **For you**
 
 - A password-protected dashboard at `/admin`
 - Confirm or decline requests in one click — the customer is emailed automatically
-- Add, edit, hide and delete cars without touching code
+- Add, edit, hide and delete cars without touching code — the site relayouts itself
 - Block out dates for servicing, private use or holidays
 - Preview every automated email before a customer ever sees one
 
@@ -108,11 +108,17 @@ isn't published on the current site:
 These feed the header, footer, contact page, emails and the search-engine
 structured data, so getting them right here updates everything at once.
 
-### 2. Your real fleet
+### 2. Your real car
 
-Sign in to `/admin/fleet`. Six sample cars ship with the project so the site is
-never empty — edit them or delete them and add your own. For each car you set the
-name, theme, description, rates, fees, seating, minimum days and an accent colour.
+Sign in to `/admin/fleet`. One sample car ships with the project so the site is
+never empty — edit it into your actual car. You set the name, theme, description,
+rates, fees, seating, minimum days and an accent colour.
+
+**The site adapts to how many cars are active.** With one, the home and fleet
+pages give it a full-width feature, the copy reads in the singular, and the
+booking form drops its "choose your car" step so customers go straight to dates.
+Add a second car from the same screen and both switch to a grid automatically —
+no code change.
 
 **Photos:** cars with no photo fall back to an illustrated Kei van in the car's
 accent colour, which is why the site looks finished before you've shot anything.
@@ -140,7 +146,8 @@ Both let you attach a personal note that appears in their email. Declining or
 cancelling releases the dates back to the calendar immediately.
 
 **Fleet** — add and edit cars. Unticking "Show on the website" hides a car
-without deleting its history; prefer that over deleting.
+without deleting its history; prefer that over deleting. Adding a second car
+switches the public pages from the single-car feature layout to a grid.
 
 **Blocked dates** — block a car (or every car) for servicing, private use or
 holidays. This page also lists dates already held by pending and confirmed
@@ -223,7 +230,7 @@ npm run typecheck  # tsc --noEmit
 Not built, but the groundwork is there:
 
 - **Online deposits** — add Stripe Checkout to the booking flow to take payment up front
-- **Real photos** — the biggest single visual upgrade available
+- **A real photo of the car** — the biggest single visual upgrade available
 - **Real reviews** — the old site's testimonials were theme placeholders ("John Doe",
   "Sarah Jones"), so they were left out rather than carried over. Add genuine ones
   when you have them.
