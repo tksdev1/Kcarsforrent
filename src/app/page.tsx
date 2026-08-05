@@ -17,35 +17,6 @@ const OCCASIONS = [
   { emoji: "✨", title: "Just because", copy: "You don't actually need a reason." },
 ];
 
-/** `solo*` variants are used when the fleet is a single car. */
-interface Step {
-  n: string;
-  title: string;
-  copy: string;
-  soloTitle?: string;
-  soloCopy?: string;
-}
-
-const STEPS: Step[] = [
-  {
-    n: "01",
-    title: "Pick your car and dates",
-    soloTitle: "Tell us your dates",
-    copy: "Browse the fleet, find the theme that fits your occasion, and tell us when you need it. Every car shows its real daily rate up front — no hidden fees.",
-    soloCopy: "Tell us when you need the car and what you're celebrating. The real daily rate is shown up front, and the booking form works out your total as you go — no hidden fees.",
-  },
-  {
-    n: "02",
-    title: "We confirm within 24 hours",
-    copy: "We check the car is free and properly prepped for your occasion, then email you a confirmation. Nothing is charged when you request — you only pay at pick-up.",
-  },
-  {
-    n: "03",
-    title: "Collect it, or we bring it",
-    copy: "Come and grab the keys, or add delivery and we'll drop it wherever the celebration is happening. Bring your licence and a card for the deposit hold.",
-  },
-];
-
 export default async function HomePage() {
   const cars = await getActiveCars();
   const featured = cars.slice(0, 3);
@@ -95,12 +66,11 @@ export default async function HomePage() {
                 : "A one-of-a-kind fleet of themed Japanese micro vans, built for the occasions worth remembering. Small in size — enormous in character."}
             </p>
 
+            {/* One car, one action. A "see the fleet" button would send people
+                to a page showing the same car that's already featured below. */}
             <div className="mt-9 flex flex-wrap gap-3">
               <Link href="/book" className="btn btn-primary px-7 py-4 text-base">
                 Book a car
-              </Link>
-              <Link href="/fleet" className="btn btn-ghost px-7 py-4 text-base">
-                See the fleet
               </Link>
             </div>
 
@@ -200,32 +170,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ------------------------------------------------------- How it works */}
-      <section className="container-page py-20">
-        <p className="eyebrow">How it works</p>
-        <h2 className="mt-4 max-w-2xl font-display text-4xl font-extrabold sm:text-5xl">
-          Rent a ride in three easy steps
-        </h2>
-
-        <ol className="mt-12 grid gap-7 md:grid-cols-3">
-          {STEPS.map((step) => (
-            <li key={step.n} className="card p-7">
-              <span className="font-display text-5xl font-extrabold text-brand/25">
-                {step.n}
-              </span>
-              <h3 className="mt-3 font-display text-xl font-extrabold">
-                {soloCar ? (step.soloTitle ?? step.title) : step.title}
-              </h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-muted">
-                {soloCar ? (step.soloCopy ?? step.copy) : step.copy}
-              </p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
       {/* ----------------------------------------------------------- Occasions */}
-      <section className="border-y border-line bg-paper-2 py-20">
+      {/* Plain background: the fleet section above is already a tinted band, and
+          two in a row read as one long slab with a stray divider through it. */}
+      <section className="py-20">
         <div className="container-page">
           <p className="eyebrow">Occasions</p>
           <h2 className="mt-4 max-w-2xl font-display text-4xl font-extrabold sm:text-5xl">

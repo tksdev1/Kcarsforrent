@@ -190,7 +190,7 @@ src/
 │  ├─ page.tsx                 Home
 │  ├─ fleet/                   Fleet listing + car detail pages
 │  ├─ book/                    Booking form + confirmation
-│  ├─ how-it-works/ faq/ policies/ contact/
+│  ├─ faq/ policies/ contact/
 │  ├─ admin/                   Owner dashboard (login + (dashboard) group)
 │  └─ api/                     Booking, availability, contact, admin endpoints
 ├─ components/                 UI, including BookingForm and the admin screens
