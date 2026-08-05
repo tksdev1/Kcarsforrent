@@ -55,7 +55,9 @@ const organizationJsonLd = {
     addressLocality: site.city,
     addressRegion: site.region,
   },
-  sameAs: [site.social.instagram],
+  // Omit sameAs entirely rather than emitting an empty array — search engines
+  // treat a present-but-empty property as a signal that there are no profiles.
+  ...(site.social.instagram ? { sameAs: [site.social.instagram] } : {}),
 };
 
 export default function RootLayout({

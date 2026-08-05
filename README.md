@@ -57,11 +57,11 @@ Set these in **Netlify → Site configuration → Environment variables** (and i
 | --- | --- | --- |
 | `RESEND_API_KEY` | Yes | Sends the emails. Get one at [resend.com/api-keys](https://resend.com/api-keys). |
 | `BOOKING_FROM_EMAIL` | Yes | The "from" address, e.g. `K Cars for Rent <bookings@kcarsforrent.com>`. The domain must be verified in Resend. |
-| `OWNER_NOTIFICATION_EMAIL` | Yes | Where new booking requests are sent. Comma-separate for several people. |
+| `OWNER_NOTIFICATION_EMAIL` | Yes | Where new booking requests are sent (`yuval@thetks.com`). Comma-separate for several people. |
 | `ADMIN_PASSWORD` | Yes | Your dashboard password. Make it long and random. |
 | `ADMIN_SESSION_SECRET` | Yes | Signs the login cookie. Generate with `openssl rand -base64 32`. |
 | `NEXT_PUBLIC_SITE_URL` | Yes | `https://kcarsforrent.com` — used for links inside emails. |
-| `BOOKING_REPLY_TO` | No | Where customer replies go, if different from the from address. |
+| `BOOKING_REPLY_TO` | No | Where customer replies go, if different from the from address. Set to `yuval@thetks.com` so replies reach your inbox. |
 
 > Without `RESEND_API_KEY` the site still works and still records bookings — it
 > just logs the emails instead of sending them. Handy for local development.
@@ -71,7 +71,9 @@ Set these in **Netlify → Site configuration → Environment variables** (and i
 1. Create an account at [resend.com](https://resend.com).
 2. Add `kcarsforrent.com` under **Domains** and add the DNS records it gives you
    (SPF, DKIM and DMARC) at your domain registrar. This is what stops your
-   confirmations landing in spam — don't skip it.
+   confirmations landing in spam — don't skip it. Verify the *site* domain, not
+   `thetks.com`: customers should see mail from the brand they booked with.
+   Replies still land in your `yuval@thetks.com` inbox via `BOOKING_REPLY_TO`.
 3. Wait for the domain to show as **Verified**.
 4. Create an API key and put it in `RESEND_API_KEY`.
 
@@ -97,16 +99,21 @@ Three things to do before launch:
 
 ### 1. Your business details
 
-Edit **`src/lib/site.ts`**. Everything marked `TODO` is a placeholder because it
-isn't published on the current site:
+Edit **`src/lib/site.ts`**. Phone and email are set. What's left:
 
-- Phone number, email address and Instagram handle
-- City, region and service area
-- Opening hours
-- Minimum rental age and security deposit amount
+- **City** — still `"Your City"`. This is the one real gap: Google uses it for
+  local search, and the 480 area code only narrows you to Arizona, so it isn't
+  something the site should guess. Set it to the town you actually operate from.
+- **Service area** — currently "Greater metro area — delivery available"
+- **Opening hours** — currently Mon–Fri 9–6, Sat 9–8, Sun by appointment
+- **Minimum rental age (21) and security deposit ($250)**
 
 These feed the header, footer, contact page, emails and the search-engine
 structured data, so getting them right here updates everything at once.
+
+There's no Instagram account yet, so `social.instagram` is `null` and the
+footer shows your phone and email in that spot instead. Fill in the handle and
+URL later and the links reappear on their own.
 
 ### 2. Your real car
 
@@ -234,5 +241,6 @@ Not built, but the groundwork is there:
 - **Real reviews** — the old site's testimonials were theme placeholders ("John Doe",
   "Sarah Jones"), so they were left out rather than carried over. Add genuine ones
   when you have them.
-- **Instagram feed** — the footer links out; an embedded feed would suit the brand
+- **Instagram** — no account yet; when there is one, add it to `site.social` and
+  the footer and contact links come back automatically
 - **SMS alerts** — a Twilio call in the booking route would text you on each request

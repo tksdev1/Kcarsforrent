@@ -33,27 +33,29 @@ export function SiteFooter() {
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
             {site.shortDescription}
           </p>
-          <a
-            href={site.social.instagram}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-sm font-bold transition-colors hover:border-ink"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <rect
-                x="2.5"
-                y="2.5"
-                width="19"
-                height="19"
-                rx="5.5"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <circle cx="12" cy="12" r="4.5" stroke="currentColor" strokeWidth="2" />
-              <circle cx="17.5" cy="6.5" r="1.4" fill="currentColor" />
-            </svg>
-            {site.social.instagramHandle}
-          </a>
+          {site.social.instagram && (
+            <a
+              href={site.social.instagram}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-sm font-bold transition-colors hover:border-ink"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <rect
+                  x="2.5"
+                  y="2.5"
+                  width="19"
+                  height="19"
+                  rx="5.5"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <circle cx="12" cy="12" r="4.5" stroke="currentColor" strokeWidth="2" />
+                <circle cx="17.5" cy="6.5" r="1.4" fill="currentColor" />
+              </svg>
+              {site.social.instagramHandle}
+            </a>
+          )}
         </div>
 
         <div>
@@ -91,7 +93,10 @@ export function SiteFooter() {
             ))}
           </ul>
 
-          <div className="mt-6 space-y-1 text-sm text-muted">
+          <h3 className="mt-8 text-xs font-extrabold uppercase tracking-[0.14em] text-muted">
+            Get in touch
+          </h3>
+          <div className="mt-4 space-y-1 text-sm text-muted">
             <a
               href={site.phoneHref}
               className="block font-bold text-ink-2 transition-colors hover:text-brand"

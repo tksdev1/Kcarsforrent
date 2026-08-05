@@ -86,8 +86,8 @@ export default function EmailPreviewPage() {
       <h1 className="font-display text-4xl font-extrabold">Email previews</h1>
       <p className="mt-2 max-w-2xl text-sm text-muted">
         Exactly what gets sent, rendered from a sample booking. Check your phone
-        number, email address and Instagram handle read correctly — they come
-        from <code className="font-mono">src/lib/site.ts</code>.
+        number and email address read correctly — they come from{" "}
+        <code className="font-mono">src/lib/site.ts</code>.
       </p>
 
       <div className="mt-8 space-y-10">

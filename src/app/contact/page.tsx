@@ -64,30 +64,32 @@ export default function ContactPage() {
             </p>
           </div>
 
-          <div>
-            <h2 className="font-display text-xl font-extrabold">Follow along</h2>
-            <a
-              href={site.social.instagram}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="mt-4 inline-flex items-center gap-2 rounded-full border-[1.5px] border-line bg-white px-4 py-2.5 text-sm font-bold transition-colors hover:border-ink"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <rect
-                  x="2.5"
-                  y="2.5"
-                  width="19"
-                  height="19"
-                  rx="5.5"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <circle cx="12" cy="12" r="4.5" stroke="currentColor" strokeWidth="2" />
-                <circle cx="17.5" cy="6.5" r="1.4" fill="currentColor" />
-              </svg>
-              {site.social.instagramHandle}
-            </a>
-          </div>
+          {site.social.instagram && (
+            <div>
+              <h2 className="font-display text-xl font-extrabold">Follow along</h2>
+              <a
+                href={site.social.instagram}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="mt-4 inline-flex items-center gap-2 rounded-full border-[1.5px] border-line bg-white px-4 py-2.5 text-sm font-bold transition-colors hover:border-ink"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <rect
+                    x="2.5"
+                    y="2.5"
+                    width="19"
+                    height="19"
+                    rx="5.5"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <circle cx="12" cy="12" r="4.5" stroke="currentColor" strokeWidth="2" />
+                  <circle cx="17.5" cy="6.5" r="1.4" fill="currentColor" />
+                </svg>
+                {site.social.instagramHandle}
+              </a>
+            </div>
+          )}
         </div>
 
         <ContactForm />
