@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm paper base — this is a playful, hand-made brand, not a corporate
+     rental desk. Pure white reads clinical against the themed cars. */
+  --color-paper: #faf8f5;
+  --color-paper-2: #f2eee8;
+  --color-ink: #1c1917;
+  --color-ink-2: #44403c;
+  --color-muted: #78716c;
+  --color-line: #e4ded5;
+
+  --color-brand: #d94436;
+  --color-brand-dark: #b8332a;
+  --color-brand-light: #fde8e5;
+
+  --color-sun: #f2b134;
+  --color-mint: #3fb8a5;
+  --color-grape: #8b5cf6;
+  --color-blossom: #ec6a9c;
+
+  --font-display:
+    "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  --radius-card: 1.25rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Native date/time inputs are unusable in dark mode on some browsers if we
+     don't pin the scheme, and the picker icon is invisible on light chrome. */
+  input[type="date"],
+  input[type="time"] {
+    color-scheme: light;
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    line-height: 1;
+    padding: 0.9rem 1.6rem;
+    transition:
+      transform 0.15s ease,
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+    cursor: pointer;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn-primary {
+    background-color: var(--color-brand);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-brand-dark);
+  }
+
+  .btn-primary:disabled {
+    background-color: var(--color-muted);
+    cursor: not-allowed;
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--color-ink);
+    border: 1.5px solid var(--color-line);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-ink);
+  }
+
+  .field-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-ink-2);
+    margin-bottom: 0.4rem;
+  }
+
+  .field-input {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1.5px solid var(--color-line);
+    background-color: #fff;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.95rem;
+    color: var(--color-ink);
+    transition: border-color 0.15s ease;
+  }
+
+  .field-input::placeholder {
+    color: #a8a29e;
+  }
+
+  .field-input:hover {
+    border-color: #cfc7ba;
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px var(--color-brand-light);
+  }
+
+  .field-input[aria-invalid="true"] {
+    border-color: var(--color-brand);
+    background-color: #fffafa;
+  }
+
+  .field-error {
+    margin-top: 0.35rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+
+  .card {
+    background-color: #fff;
+    border: 1.5px solid var(--color-line);
+    border-radius: var(--radius-card);
+  }
+}
+
+@layer utilities {
+  /* Subtle paper texture so large flat areas don't look like a template. */
+  .bg-dots {
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      rgba(28, 25, 23, 0.07) 1px,
+      transparent 0
+    );
+    background-size: 22px 22px;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
