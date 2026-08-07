@@ -53,6 +53,18 @@ export interface BookingCustomer {
   phone: string;
 }
 
+/** Outcome of one automated email, recorded so it's visible after the fact. */
+export type EmailOutcome = "sent" | "failed" | "not-configured";
+
+export interface EmailDelivery {
+  customer: EmailOutcome;
+  owner: EmailOutcome;
+  /** Provider error, kept for the dashboard so failures are diagnosable. */
+  error?: string;
+  /** When the send was attempted. */
+  attemptedAt: string;
+}
+
 export interface Booking {
   id: string;
   /** Human-friendly reference shown to the customer, e.g. "KC-8F3A2B". */
@@ -76,6 +88,11 @@ export interface Booking {
   quote: Quote;
   /** Internal note the owner can add from the dashboard. */
   ownerNote: string;
+  /**
+   * Whether the confirmation emails actually went out. Absent on bookings
+   * taken before this was recorded.
+   */
+  emailDelivery?: EmailDelivery;
   createdAt: string;
   updatedAt: string;
 }

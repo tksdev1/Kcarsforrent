@@ -10,15 +10,22 @@ import {
   newReference,
   saveBooking,
 } from "@/lib/bookings";
-import { ownerRecipients, sendEmail } from "@/lib/email";
+import { ownerRecipients, sendEmail, type SendResult } from "@/lib/email";
 import { carDisplayName, getCarById } from "@/lib/fleet";
 import { rentalDays, todayISO } from "@/lib/dates";
 import { buildQuote } from "@/lib/pricing";
-import type { Booking } from "@/lib/types";
+import type { Booking, EmailDelivery, EmailOutcome } from "@/lib/types";
 import { bookingRequestSchema, fieldErrors } from "@/lib/validation";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+function outcomeOf(result: SendResult): EmailOutcome {
+  if (result.ok) return "sent";
+  // `skipped` means no API key — a configuration gap, not a delivery failure,
+  // and worth distinguishing because the fix is completely different.
+  return result.skipped ? "not-configured" : "failed";
+}
 
 export async function POST(request: Request) {
   let payload: unknown;
@@ -157,6 +164,18 @@ export async function POST(request: Request) {
       ownerResult.error,
     );
   }
+
+  // Record the outcome on the booking. Previously this only went to the
+  // console and the HTTP response, so once the request was over there was no
+  // way to tell from the dashboard whether a booking had actually been
+  // emailed — the exact question the owner needs answered.
+  const emailDelivery: EmailDelivery = {
+    customer: outcomeOf(customerResult),
+    owner: outcomeOf(ownerResult),
+    error: customerResult.error ?? ownerResult.error,
+    attemptedAt: new Date().toISOString(),
+  };
+  await saveBooking({ ...booking, emailDelivery });
 
   return NextResponse.json(
     {

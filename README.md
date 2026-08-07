@@ -216,6 +216,28 @@ bookings, so you get one complete view of what's unavailable and why.
 **Email previews** — every automated email rendered from a sample booking, so you
 can check your details read correctly without making a test booking.
 
+## How do I know an email actually sent?
+
+Three places, in order of convenience:
+
+1. **The Bookings page.** Every booking carries a badge next to its reference:
+   *Emails sent*, *Email failed → customer + you*, or *Email not configured*.
+   Hover a failure to see the provider's error. Bookings taken before this was
+   recorded show *Email · unknown* rather than pretending they succeeded.
+2. **The banner at the top of Bookings.** If `RESEND_API_KEY`,
+   `OWNER_NOTIFICATION_EMAIL` or `BOOKING_FROM_EMAIL` is missing — or the from
+   address is still Resend's test address, which only delivers to your own
+   Resend account — a red panel says exactly what's wrong and where to fix it.
+3. **[resend.com/emails](https://resend.com/emails)** is the authoritative log:
+   every message, whether it bounced, and whether it was opened.
+
+Netlify's function logs also carry a line per failure, of the form
+`[bookings] KC-XXXX saved but the customer email failed: <reason>`.
+
+**A booking is never lost because email failed.** It's saved before any send is
+attempted, so a failed email means you follow up by phone — the request itself
+is safely in the dashboard with the customer's number on it.
+
 ---
 
 ## How availability works
