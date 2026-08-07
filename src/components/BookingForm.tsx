@@ -4,20 +4,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { addDays, formatTime, rentalDays, todayISO } from "@/lib/dates";
+import { OCCASION_OPTIONS } from "@/lib/occasions";
 import { buildQuote } from "@/lib/pricing";
 import { formatMoney, site } from "@/lib/site";
 import type { Car } from "@/lib/types";
 
-const OCCASIONS = [
-  "Birthday",
-  "Quinceañera",
-  "Wedding",
-  "Photo shoot",
-  "Weekend trip",
-  "Corporate / brand event",
-  "Just because",
-  "Other",
-];
 
 const TIME_SLOTS = (() => {
   const slots: string[] = [];
@@ -393,7 +384,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
                 onChange={(e) => setOccasion(e.target.value)}
               >
                 <option value="">Select an occasion (optional)</option>
-                {OCCASIONS.map((option) => (
+                {OCCASION_OPTIONS.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>

@@ -4,19 +4,12 @@ import Link from "next/link";
 import { CarCard } from "@/components/CarCard";
 import { FeaturedCar } from "@/components/FeaturedCar";
 import { KeiVan } from "@/components/KeiVan";
-import { getActiveCars } from "@/lib/fleet";
+import { carDisplayName, getActiveCars } from "@/lib/fleet";
+import { PERFECT_FOR } from "@/lib/occasions";
 import { formatMoney, site } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
-const OCCASIONS = [
-  { emoji: "🎂", title: "Birthdays", copy: "Turn the driveway into the main event." },
-  { emoji: "👑", title: "Quinceañeras", copy: "An entrance nobody at the party forgets." },
-  { emoji: "📸", title: "Photo shoots", copy: "A backdrop that does half the work for you." },
-  { emoji: "💍", title: "Weddings", copy: "Getaway car energy, in miniature." },
-  { emoji: "🏖️", title: "Weekend trips", copy: "Small on fuel, enormous on personality." },
-  { emoji: "✨", title: "Just because", copy: "You don't actually need a reason." },
-];
 
 export default async function HomePage() {
   const cars = await getActiveCars();
@@ -102,7 +95,7 @@ export default async function HomePage() {
               <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border-[1.5px] border-line bg-white shadow-xl">
                 <Image
                   src={heroCar.image}
-                  alt={`${heroCar.name} — ${heroCar.theme} themed Kei van`}
+                  alt={carDisplayName(heroCar)}
                   fill
                   priority
                   sizes="(max-width: 1024px) 0px, 50vw"
@@ -166,7 +159,10 @@ export default async function HomePage() {
             <div>
               <p className="eyebrow">{soloCar ? "The car" : "The fleet"}</p>
               <h2 className="mt-4 font-display text-4xl font-extrabold sm:text-5xl">
-                {soloCar ? `Meet ${soloCar.name}` : "Pick your character"}
+                {/* The name itself, not "Meet {name}" — that read as "Meet
+                    Hello Kitty Kei Van" once the car stopped having a
+                    nickname. */}
+                {soloCar ? soloCar.name : "Pick your character"}
               </h2>
             </div>
             {!soloCar && cars.length > 0 && (
@@ -199,13 +195,13 @@ export default async function HomePage() {
           two in a row read as one long slab with a stray divider through it. */}
       <section className="py-20">
         <div className="container-page">
-          <p className="eyebrow">Occasions</p>
+          <p className="eyebrow">Perfect for</p>
           <h2 className="mt-4 max-w-2xl font-display text-4xl font-extrabold sm:text-5xl">
             What are we celebrating?
           </h2>
 
           <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {OCCASIONS.map((occasion) => (
+            {PERFECT_FOR.map((occasion) => (
               <li
                 key={occasion.title}
                 className="card flex items-start gap-4 p-6"

@@ -11,7 +11,7 @@ import {
   saveBooking,
 } from "@/lib/bookings";
 import { ownerRecipients, sendEmail } from "@/lib/email";
-import { getCarById } from "@/lib/fleet";
+import { carDisplayName, getCarById } from "@/lib/fleet";
 import { rentalDays, todayISO } from "@/lib/dates";
 import { buildQuote } from "@/lib/pricing";
 import type { Booking } from "@/lib/types";
@@ -108,7 +108,7 @@ export async function POST(request: Request) {
     id: newBookingId(),
     reference: newReference(),
     carId: car.id,
-    carName: `${car.name} — ${car.theme}`,
+    carName: carDisplayName(car),
     customer: {
       name: input.name,
       email: input.email,
