@@ -40,8 +40,9 @@ export const SEED_FLEET: Car[] = [
       "Custom alloy wheels",
       "Cold A/C",
     ],
-    dailyRate: 189,
-    weekendRate: 229,
+    dailyRate: 179,
+    // No weekend premium — one rate every day. Leaving weekendRate unset makes
+    // the quote show a single "Rental — N days" line instead of splitting it.
     deliveryFee: 60,
     cleaningFee: 45,
     minDays: 1,

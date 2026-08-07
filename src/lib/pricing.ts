@@ -25,23 +25,35 @@ export function buildQuote({
   const dates = eachDate(startDate, endDate);
 
   const weekendRate = car.weekendRate ?? car.dailyRate;
-  const weekdayDates = dates.filter((d) => !isWeekend(d));
-  const weekendDates = dates.filter((d) => isWeekend(d));
+  const flatRate = weekendRate === car.dailyRate;
 
   const lines: QuoteLine[] = [];
 
-  if (weekdayDates.length > 0) {
+  if (flatRate) {
+    // One rate every day, so splitting the breakdown into "weekday" and
+    // "weekend" lines would imply a distinction the customer isn't being
+    // charged for. Show it as a single line.
     lines.push({
-      label: `Weekday rate — ${weekdayDates.length} ${plural(weekdayDates.length, "day")} × ${money(car.dailyRate)}`,
-      amount: weekdayDates.length * car.dailyRate,
+      label: `Rental — ${days} ${plural(days, "day")} × ${money(car.dailyRate)}`,
+      amount: days * car.dailyRate,
     });
-  }
+  } else {
+    const weekdayDates = dates.filter((d) => !isWeekend(d));
+    const weekendDates = dates.filter((d) => isWeekend(d));
 
-  if (weekendDates.length > 0) {
-    lines.push({
-      label: `Weekend rate — ${weekendDates.length} ${plural(weekendDates.length, "day")} × ${money(weekendRate)}`,
-      amount: weekendDates.length * weekendRate,
-    });
+    if (weekdayDates.length > 0) {
+      lines.push({
+        label: `Weekday rate — ${weekdayDates.length} ${plural(weekdayDates.length, "day")} × ${money(car.dailyRate)}`,
+        amount: weekdayDates.length * car.dailyRate,
+      });
+    }
+
+    if (weekendDates.length > 0) {
+      lines.push({
+        label: `Weekend rate — ${weekendDates.length} ${plural(weekendDates.length, "day")} × ${money(weekendRate)}`,
+        amount: weekendDates.length * weekendRate,
+      });
+    }
   }
 
   if (car.cleaningFee > 0) {

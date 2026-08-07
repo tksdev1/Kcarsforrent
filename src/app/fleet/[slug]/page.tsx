@@ -39,6 +39,9 @@ export default async function CarPage({ params }: PageProps) {
     .filter((c) => c.id !== car.id)
     .slice(0, 3);
 
+  const hasWeekendRate =
+    car.weekendRate !== undefined && car.weekendRate !== car.dailyRate;
+
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -159,7 +162,10 @@ export default async function CarPage({ params }: PageProps) {
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.12em] text-muted">
-                  Weekday rate
+                  {/* "Weekday rate" only means something next to a weekend
+                      one. On a flat rate it implies a premium that isn't
+                      charged. */}
+                  {hasWeekendRate ? "Weekday rate" : "Daily rate"}
                 </p>
                 <p className="mt-1 font-display text-4xl font-extrabold">
                   {formatMoney(car.dailyRate)}
@@ -168,7 +174,7 @@ export default async function CarPage({ params }: PageProps) {
                   </span>
                 </p>
               </div>
-              {car.weekendRate && car.weekendRate !== car.dailyRate && (
+              {hasWeekendRate && car.weekendRate && (
                 <div className="text-right">
                   <p className="text-xs font-bold uppercase tracking-[0.12em] text-muted">
                     Fri – Sun

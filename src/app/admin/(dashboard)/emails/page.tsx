@@ -6,6 +6,7 @@ import {
 } from "@/emails/templates";
 import { addDays, todayISO } from "@/lib/dates";
 import { getActiveCars } from "@/lib/fleet";
+import { buildQuote } from "@/lib/pricing";
 import type { Booking, Car } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -17,22 +18,24 @@ export const dynamic = "force-dynamic";
  * their branding and contact details look right — without having to make a
  * test booking first.
  */
-function sampleBooking(car: Car | null): Booking {
+function sampleBooking(car: Car): Booking {
   const start = addDays(todayISO(), 12);
   const end = addDays(start, 2);
 
-  const dailyRate = car?.dailyRate ?? 189;
-  const weekendRate = car?.weekendRate ?? dailyRate;
-  const cleaningFee = car?.cleaningFee ?? 45;
-  const deliveryFee = car?.deliveryFee ?? 60;
+  // Price it through the real quote builder rather than hand-assembling
+  // lines, so the preview can't drift from what customers are actually sent.
+  const quote = buildQuote({
+    car,
+    startDate: start,
+    endDate: end,
+    deliveryRequested: true,
+  });
 
   return {
     id: "bk_sample",
     reference: "KC-SAMPLE",
-    carId: car?.id ?? "car_sample",
-    // Uses your real car and rates so the preview matches what customers get,
-    // rather than drifting every time the fleet is edited.
-    carName: car ? `${car.name} — ${car.theme}` : "Your car — Your theme",
+    carId: car.id,
+    carName: `${car.name} — ${car.theme}`,
     customer: {
       name: "Rosa Martinez",
       email: "rosa@example.com",
@@ -47,19 +50,7 @@ function sampleBooking(car: Car | null): Booking {
     deliveryAddress: "1420 W Main St, Visalia, CA",
     notes: "Arriving at the venue for 2pm — please leave the roof sign lit.",
     status: "pending",
-    quote: {
-      days: 3,
-      lines: [
-        { label: `Weekday rate — 1 day × $${dailyRate}`, amount: dailyRate },
-        {
-          label: `Weekend rate — 2 days × $${weekendRate}`,
-          amount: weekendRate * 2,
-        },
-        { label: "Cleaning & prep", amount: cleaningFee },
-        { label: "Delivery & pickup", amount: deliveryFee },
-      ],
-      total: dailyRate + weekendRate * 2 + cleaningFee + deliveryFee,
-    },
+    quote,
     ownerNote: "See you Friday! Parking is round the back.",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -68,7 +59,22 @@ function sampleBooking(car: Car | null): Booking {
 
 export default async function EmailPreviewPage() {
   const cars = await getActiveCars();
-  const base = sampleBooking(cars[0] ?? null);
+  const car = cars[0];
+
+  // The preview prices a real car, so there's nothing to show without one.
+  if (!car) {
+    return (
+      <>
+        <h1 className="font-display text-4xl font-extrabold">Email previews</h1>
+        <p className="mt-3 max-w-lg text-muted">
+          Add a car on the Fleet page and the previews will render here, priced
+          with its real rates.
+        </p>
+      </>
+    );
+  }
+
+  const base = sampleBooking(car);
 
   const previews = [
     {

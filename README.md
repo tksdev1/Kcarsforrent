@@ -136,8 +136,13 @@ and accent colour, no code needed.
 Still unconfirmed on that record, so check them: the **model year**, whether
 it's **right-hand drive** (it's a Japanese import, so almost certainly yes —
 worth stating plainly since it changes how the car drives), the **seat count**
-(set to 4) and the **transmission** (set to automatic). The rates are still the
-placeholder $189/$229 until you set your own.
+(set to 4) and the **transmission** (set to automatic).
+
+The rate is **$179/day, every day** — no weekend premium. That's driven by
+leaving `weekendRate` unset: when it's unset (or equal to the daily rate), the
+car page shows a single "Daily rate" figure and the quote breakdown collapses to
+one "Rental — N days × $179" line instead of splitting into weekday and weekend
+rows. Set a weekend rate in `/admin/fleet` and both switch back automatically.
 
 **The site adapts to how many cars are active.** With one, the home and fleet
 pages give it a full-width feature, the copy reads in the singular, and the
