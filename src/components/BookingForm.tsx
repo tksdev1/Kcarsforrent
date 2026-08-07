@@ -249,7 +249,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
                       {option.name}
                     </span>
                     <span className="block truncate text-xs text-muted">
-                      {option.theme} · {option.seats} seats
+                      {option.theme}
                     </span>
                   </span>
                   <span className="shrink-0 text-sm font-extrabold">
@@ -280,7 +280,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
                   {car.name}
                 </p>
                 <p className="text-sm text-muted">
-                  {car.theme} · {car.seats} seats · {car.transmission}
+                  {car.theme}
                 </p>
               </div>
               <p className="ml-auto shrink-0 text-right">

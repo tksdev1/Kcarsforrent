@@ -61,21 +61,6 @@ export function CarCard({ car, priority = false }: { car: Car; priority?: boolea
         </h3>
         <p className="mt-1.5 text-sm leading-relaxed text-muted">{car.tagline}</p>
 
-        <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-1.5 text-xs font-semibold text-ink-2">
-          <div className="flex items-center gap-1.5">
-            <dt className="text-muted">Seats</dt>
-            <dd>{car.seats}</dd>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <dt className="text-muted">Gearbox</dt>
-            <dd>{car.transmission}</dd>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <dt className="text-muted">Base</dt>
-            <dd>{car.model}</dd>
-          </div>
-        </dl>
-
         <div className="mt-auto flex items-end justify-between gap-4 pt-6">
           <p className="leading-none">
             <span className="font-display text-2xl font-extrabold">

@@ -40,24 +40,7 @@ export function FeaturedCar({ car }: { car: Car }) {
           <p className="mt-5 leading-relaxed text-muted">{car.description}</p>
         )}
 
-        <dl className="mt-7 grid grid-cols-3 gap-4 border-y border-line py-5">
-          {[
-            { label: "Seats", value: String(car.seats) },
-            { label: "Gearbox", value: car.transmission },
-            { label: "Base car", value: car.model },
-          ].map((spec) => (
-            <div key={spec.label}>
-              <dt className="text-[0.7rem] font-bold uppercase tracking-[0.1em] text-muted">
-                {spec.label}
-              </dt>
-              <dd className="mt-1 text-sm font-bold leading-snug">
-                {spec.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
-
-        <div className="mt-auto flex flex-wrap items-end justify-between gap-5 pt-7">
+        <div className="mt-auto flex flex-wrap items-end justify-between gap-5 border-t border-line pt-7">
           <p className="leading-none">
             <span className="font-display text-4xl font-extrabold">
               {formatMoney(car.dailyRate)}

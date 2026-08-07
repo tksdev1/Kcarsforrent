@@ -133,10 +133,11 @@ a real photo at `public/fleet/hello-kitty-kei-van.jpg`. Edit it at
 `/admin/fleet` — name, theme, description, rates, fees, seating, minimum days
 and accent colour, no code needed.
 
-Still unconfirmed on that record, so check them: the **model year**, whether
-it's **right-hand drive** (it's a Japanese import, so almost certainly yes —
-worth stating plainly since it changes how the car drives), the **seat count**
-(set to 4) and the **transmission** (set to automatic).
+The site doesn't advertise vehicle specs — no seat count, transmission or base
+model anywhere. People book this car for how it looks, not its spec sheet. The
+fields still exist on the record and round-trip when you save, so if you ever
+want to show them, re-add the display in `FeaturedCar`, `CarCard` and the car
+page, and the three inputs in `FleetManager`.
 
 The rate is **$179/day, every day** — no weekend premium. That's driven by
 leaving `weekendRate` unset: when it's unset (or equal to the daily rate), the

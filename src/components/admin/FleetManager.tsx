@@ -203,23 +203,10 @@ export function FleetManager({ cars }: { cars: Car[] }) {
               </label>
             </div>
 
-            <Text label="Base vehicle" value={draft.model} onChange={(v) => set("model", v)} hint="e.g. 1996 Suzuki Every" />
-
-            <label className="block">
-              <span className="field-label">Transmission</span>
-              <select
-                className="field-input"
-                value={draft.transmission}
-                onChange={(e) =>
-                  set("transmission", e.target.value as "Automatic" | "Manual")
-                }
-              >
-                <option>Automatic</option>
-                <option>Manual</option>
-              </select>
-            </label>
-
-            <Text label="Seats" type="number" value={draft.seats} error={errors.seats} onChange={(v) => set("seats", v)} />
+            {/* Base vehicle, transmission and seat count aren't shown anywhere
+                on the site, so there's no field for them here. The values still
+                round-trip through the draft, so nothing is lost — add the
+                inputs back if you ever want to advertise the specs. */}
 
             <label className="block">
               <span className="field-label">Accent colour</span>

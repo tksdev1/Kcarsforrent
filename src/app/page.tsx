@@ -32,8 +32,9 @@ export default async function HomePage() {
 
   const stats = soloCar
     ? [
-        { label: "Daily rate from", value: formatMoney(soloCar.dailyRate) },
-        { label: "Seats", value: String(soloCar.seats) },
+        // Flat rate, so no "from". Vehicle specs deliberately aren't advertised
+        // here — people book this car for how it looks, not its seat count.
+        { label: "Daily rate", value: formatMoney(soloCar.dailyRate) },
         { label: "Delivery", value: "Available" },
       ]
     : [
