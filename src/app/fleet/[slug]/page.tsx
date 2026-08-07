@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CarCard, CarPhoto } from "@/components/CarCard";
-import { getActiveCars, getCarBySlug } from "@/lib/fleet";
+import { carDisplayName, getActiveCars, getCarBySlug } from "@/lib/fleet";
+import { PERFECT_FOR } from "@/lib/occasions";
 import { formatMoney, site } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
@@ -20,10 +21,10 @@ export async function generateMetadata({
   if (!car) return { title: "Car not found" };
 
   return {
-    title: `${car.name} — ${car.theme}`,
+    title: carDisplayName(car),
     description: car.tagline || car.description.slice(0, 155),
     openGraph: {
-      title: `${car.name} — ${car.theme} themed Kei van`,
+      title: carDisplayName(car),
       description: car.tagline,
       images: car.image ? [car.image] : undefined,
     },
@@ -45,7 +46,7 @@ export default async function CarPage({ params }: PageProps) {
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: `${car.name} — ${car.theme} themed Kei van`,
+    name: carDisplayName(car),
     description: car.description,
     brand: { "@type": "Brand", name: site.name },
     offers: {
@@ -111,10 +112,25 @@ export default async function CarPage({ params }: PageProps) {
 
           <p className="mt-7 leading-relaxed text-ink-2">{car.description}</p>
 
+          <h2 className="mt-10 font-display text-xl font-extrabold">
+            Perfect for
+          </h2>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {PERFECT_FOR.map((occasion) => (
+              <li
+                key={occasion.title}
+                className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-line bg-white px-3.5 py-2 text-sm font-bold"
+              >
+                <span aria-hidden>{occasion.emoji}</span>
+                {occasion.title}
+              </li>
+            ))}
+          </ul>
+
           {car.features.length > 0 && (
             <>
               <h2 className="mt-10 font-display text-xl font-extrabold">
-                What's included
+                Your rental includes
               </h2>
               <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
                 {car.features.map((feature) => (

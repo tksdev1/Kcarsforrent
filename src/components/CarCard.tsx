@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { KeiVan } from "@/components/KeiVan";
+import { carDisplayName } from "@/lib/fleet";
 import { formatMoney } from "@/lib/site";
 import type { Car } from "@/lib/types";
 
@@ -18,7 +19,7 @@ export function CarPhoto({
     return (
       <Image
         src={car.image}
-        alt={`${car.name} — ${car.theme} themed Kei van`}
+        alt={carDisplayName(car)}
         fill
         priority={priority}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -30,7 +31,7 @@ export function CarPhoto({
   return (
     <KeiVan
       accent={car.accent}
-      title={`${car.name} — ${car.theme} themed Kei van`}
+      title={carDisplayName(car)}
       className={`h-full w-full p-6 ${className}`}
     />
   );

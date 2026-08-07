@@ -5,7 +5,7 @@ import {
   ownerNewRequest,
 } from "@/emails/templates";
 import { addDays, todayISO } from "@/lib/dates";
-import { getActiveCars } from "@/lib/fleet";
+import { carDisplayName, getActiveCars } from "@/lib/fleet";
 import { buildQuote } from "@/lib/pricing";
 import type { Booking, Car } from "@/lib/types";
 
@@ -35,7 +35,7 @@ function sampleBooking(car: Car): Booking {
     id: "bk_sample",
     reference: "KC-SAMPLE",
     carId: car.id,
-    carName: `${car.name} — ${car.theme}`,
+    carName: carDisplayName(car),
     customer: {
       name: "Rosa Martinez",
       email: "rosa@example.com",

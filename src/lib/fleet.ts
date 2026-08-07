@@ -12,7 +12,7 @@ const META_KEY = "fleet-meta";
  * data up on the next request. Sites that HAVE been edited there keep their
  * version — the dashboard always wins, so bumping this can't destroy real work.
  */
-const SEED_VERSION = 2;
+const SEED_VERSION = 3;
 
 /**
  * The starter car.
@@ -32,24 +32,26 @@ export const SEED_FLEET: Car[] = [
     // double-booked. The name and slug are what people actually see.
     id: "car_sakura",
     slug: "hello-kitty-kei-van",
-    name: "Kitty",
+    name: "Hello Kitty Kei Van",
     theme: "Hello Kitty",
     tagline: "Bubblegum pink, bow to bumper.",
     description:
       "A genuine Japanese Kei van wrapped end to end in bubblegum pink Hello Kitty artwork \u2014 Kitty and her teddy across the sliding door, cherries down the flank, a bow on the rear quarter, and a lit \u201cRent Me!\u201d sign on the roof. It is impossible to drive this thing without someone waving at you. Made for birthdays, quincea\u00f1eras, photo shoots and any entrance that deserves a bit of theatre.",
-    // TODO: add the model year once you have it to hand.
     model: "Suzuki Every",
     seats: 4,
     transmission: "Automatic",
     image: "/fleet/hello-kitty-kei-van.jpg",
     gallery: [],
     accent: "#d6206a",
+    // Straight from the owner's flyer — these were previously guessed from the
+    // photo, which is no basis for claims on a rental listing.
     features: [
-      "Full Hello Kitty wrap, inside and out",
-      "Lit \u201cRent Me!\u201d roof sign",
-      "Kitty & teddy side artwork",
-      "Custom alloy wheels",
-      "Cold A/C",
+      "Unique right-hand drive Japanese Kei van",
+      "100 miles per day included",
+      "Automatic transmission",
+      "Air conditioning",
+      "Full Hello Kitty wrap with lit \u201cRent Me!\u201d roof sign",
+      "Unlimited smiles and attention everywhere you go",
     ],
     dailyRate: 179,
     // No weekend premium — one rate every day. Leaving weekendRate unset makes
@@ -149,6 +151,20 @@ export async function upsertCar(car: Car): Promise<Car> {
 export async function deleteCar(id: string): Promise<void> {
   const cars = await getAllCars();
   await saveAllCars(cars.filter((car) => car.id !== id));
+}
+
+/**
+ * How a car is referred to in prose — booking records, emails, page titles.
+ *
+ * Names and themes used to be joined unconditionally, which now that the car is
+ * called "Hello Kitty Kei Van" would read "Hello Kitty Kei Van — Hello Kitty".
+ * The theme is dropped whenever the name already contains it.
+ */
+export function carDisplayName(car: Pick<Car, "name" | "theme">): string {
+  const theme = car.theme.trim();
+  if (!theme) return car.name;
+  if (car.name.toLowerCase().includes(theme.toLowerCase())) return car.name;
+  return `${car.name} — ${theme}`;
 }
 
 export function slugify(value: string): string {

@@ -40,7 +40,7 @@ const FAQS = [
   },
   {
     q: "Is there a mileage limit?",
-    a: "Local trips around town are included. If you're planning a longer journey, mention it in your booking notes and we'll agree the details up front — no surprises on return.",
+    a: "100 miles per day are included. If you're planning a longer journey, mention it in your booking notes and we'll agree the extra up front — no surprises on return.",
   },
   {
     q: "Can I decorate the car myself?",
