@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { CarCard } from "@/components/CarCard";
@@ -27,6 +28,7 @@ export default async function HomePage() {
   // With a single car, "1 car in the fleet" is a weak thing to lead with — show
   // that car's own specs instead.
   const soloCar = cars.length === 1 ? cars[0] : null;
+  const heroCar = soloCar ?? featured[0] ?? null;
 
   const stats = soloCar
     ? [
@@ -49,9 +51,12 @@ export default async function HomePage() {
       <section className="relative overflow-hidden border-b border-line bg-paper-2 bg-dots">
         <div className="container-page grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
           <div>
+            {/* Just the city here. The full service-area string wraps to two
+                lines at this size and strands the bullet on its own. Delivery
+                is already called out in the stats below. */}
             <p className="eyebrow">
               <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-              Themed Kei cars · {site.serviceArea}
+              Themed Kei cars · {site.city}, {site.region}
             </p>
 
             <h1 className="mt-5 font-display text-5xl font-extrabold leading-[1.02] sm:text-6xl lg:text-7xl">
@@ -88,16 +93,34 @@ export default async function HomePage() {
             </dl>
           </div>
 
+          {/* Show the actual car when there's a photo of it — no illustration
+              competes with the real thing. Falls back to the drawn van so a
+              brand-new car without a photo still gets a hero. */}
           <div className="relative hidden lg:block">
-            <div
-              aria-hidden
-              className="absolute inset-0 -translate-y-6 rounded-[3rem] bg-brand/8"
-            />
-            <KeiVan
-              accent={featured[0]?.accent ?? "#d94436"}
-              title="A themed Kei micro van"
-              className="relative w-full animate-float drop-shadow-xl"
-            />
+            {heroCar?.image ? (
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border-[1.5px] border-line bg-white shadow-xl">
+                <Image
+                  src={heroCar.image}
+                  alt={`${heroCar.name} — ${heroCar.theme} themed Kei van`}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 0px, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <>
+                <div
+                  aria-hidden
+                  className="absolute inset-0 -translate-y-6 rounded-[3rem] bg-brand/8"
+                />
+                <KeiVan
+                  accent={heroCar?.accent ?? "#d6206a"}
+                  title="A themed Kei micro van"
+                  className="relative w-full animate-float drop-shadow-xl"
+                />
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -210,9 +233,11 @@ export default async function HomePage() {
             aria-hidden
             className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-brand/25 blur-3xl"
           />
+          {/* Blue rather than yellow: warm yellow over the plum-black ground
+              muddies into brown. Pink + blue is the Hello Kitty pairing. */}
           <div
             aria-hidden
-            className="pointer-events-none absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-sun/20 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-sky/25 blur-3xl"
           />
 
           <div className="relative">

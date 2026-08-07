@@ -16,24 +16,28 @@ const KEY = "fleet";
  */
 export const SEED_FLEET: Car[] = [
   {
+    // Opaque internal id, kept stable deliberately. Bookings reference it, so
+    // renaming it would orphan any that already exist and let their dates be
+    // double-booked. The name and slug are what people actually see.
     id: "car_sakura",
-    slug: "sakura-blossom",
-    name: "Sakura",
-    theme: "Cherry Blossom",
-    tagline: "Soft pink petals, hard turns of the head.",
+    slug: "hello-kitty-kei-van",
+    name: "Kitty",
+    theme: "Hello Kitty",
+    tagline: "Bubblegum pink, bow to bumper.",
     description:
-      "Our pastel pink Kei van wrapped end to end in falling cherry blossoms, finished with a bamboo dash and a tiny torii gate on the roof rack. Built for quinceañera photo sets, birthdays and spring engagement shoots.",
-    model: "1996 Suzuki Every",
+      "A genuine Japanese Kei van wrapped end to end in bubblegum pink Hello Kitty artwork \u2014 Kitty and her teddy across the sliding door, cherries down the flank, a bow on the rear quarter, and a lit \u201cRent Me!\u201d sign on the roof. It is impossible to drive this thing without someone waving at you. Made for birthdays, quincea\u00f1eras, photo shoots and any entrance that deserves a bit of theatre.",
+    // TODO: add the model year once you have it to hand.
+    model: "Suzuki Every",
     seats: 4,
     transmission: "Automatic",
-    image: "",
+    image: "/fleet/hello-kitty-kei-van.jpg",
     gallery: [],
-    accent: "#ec6a9c",
+    accent: "#d6206a",
     features: [
-      "Full cherry blossom wrap",
-      "Bluetooth sound system",
-      "Bamboo interior trim",
-      "Rooftop torii prop",
+      "Full Hello Kitty wrap, inside and out",
+      "Lit \u201cRent Me!\u201d roof sign",
+      "Kitty & teddy side artwork",
+      "Custom alloy wheels",
       "Cold A/C",
     ],
     dailyRate: 189,

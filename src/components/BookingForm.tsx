@@ -406,7 +406,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
                 type="checkbox"
                 checked={deliveryRequested}
                 onChange={(e) => setDeliveryRequested(e.target.checked)}
-                className="mt-0.5 h-4.5 w-4.5 accent-[#d94436]"
+                className="mt-0.5 h-4.5 w-4.5 accent-[#d6206a]"
               />
               <span>
                 <span className="block text-sm font-bold">
@@ -515,7 +515,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
               type="checkbox"
               checked={agreed}
               onChange={(e) => setAgreed(e.target.checked)}
-              className="mt-0.5 h-4.5 w-4.5 accent-[#d94436]"
+              className="mt-0.5 h-4.5 w-4.5 accent-[#d6206a]"
               aria-invalid={Boolean(errors.agreed)}
             />
             <span className="text-sm leading-relaxed text-ink-2">

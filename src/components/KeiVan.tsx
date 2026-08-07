@@ -6,7 +6,7 @@
  * car by setting `image` on the car record.
  */
 export function KeiVan({
-  accent = "#d94436",
+  accent = "#d6206a",
   className,
   title,
 }: {

@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <section className="container-page py-24 text-center">
       <KeiVan
-        accent="#d94436"
+        accent="#f2a0be"
         className="mx-auto w-full max-w-sm opacity-40"
         title=""
       />

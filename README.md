@@ -128,9 +128,16 @@ own.
 
 ### 2. Your real car
 
-Sign in to `/admin/fleet`. One sample car ships with the project so the site is
-never empty — edit it into your actual car. You set the name, theme, description,
-rates, fees, seating, minimum days and an accent colour.
+The fleet holds one car: **Kitty**, the Hello Kitty–wrapped Suzuki Every, with
+a real photo at `public/fleet/hello-kitty-kei-van.jpg`. Edit it at
+`/admin/fleet` — name, theme, description, rates, fees, seating, minimum days
+and accent colour, no code needed.
+
+Still unconfirmed on that record, so check them: the **model year**, whether
+it's **right-hand drive** (it's a Japanese import, so almost certainly yes —
+worth stating plainly since it changes how the car drives), the **seat count**
+(set to 4) and the **transmission** (set to automatic). The rates are still the
+placeholder $189/$229 until you set your own.
 
 **The site adapts to how many cars are active.** With one, the home and fleet
 pages give it a full-width feature, the copy reads in the singular, and the
@@ -138,10 +145,30 @@ booking form drops its "choose your car" step so customers go straight to dates.
 Add a second car from the same screen and both switch to a grid automatically —
 no code change.
 
-**Photos:** cars with no photo fall back to an illustrated Kei van in the car's
-accent colour, which is why the site looks finished before you've shot anything.
-To use real photos, either drop files into `public/fleet/` and set the image field
-to `/fleet/sakura.jpg`, or paste a full `https://` URL from wherever you host them.
+**Photos:** drop files into `public/fleet/` and set the image field to
+`/fleet/your-file.jpg`, or paste a full `https://` URL. A car with no photo
+falls back to an illustrated Kei van in its accent colour, so a newly added car
+never shows a broken image.
+
+The home hero shows the car's photo when it has one, and the illustration only
+as a fallback.
+
+## Colour scheme
+
+The palette in `src/app/globals.css` is taken from the car: bubblegum body pink,
+the hot pink of the "Rent Me!" roof sign, Hello Kitty's red bow and yellow nose,
+on a barely-pink white.
+
+Every text pairing clears WCAG AA (4.5:1) — the brand pink `#d6206a` gives
+4.91:1 against white for buttons and 4.66:1 on the page background for links,
+and the muted grey `#7c6069` clears it on both background tints. **If you change
+these, re-check the contrast.** Lighter, prettier pinks fail badly and leave
+buttons that some people genuinely cannot read. `--color-bubblegum` is the car's
+actual body colour and is decorative only: never put text on it.
+
+The same hex values are duplicated as constants at the top of
+`src/emails/layout.ts`, because email clients strip CSS custom properties.
+Change one, change the other.
 
 ### 3. Read the policies page
 

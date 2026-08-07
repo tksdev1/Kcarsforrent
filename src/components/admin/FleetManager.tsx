@@ -36,7 +36,7 @@ const EMPTY: Draft = {
   seats: "4",
   transmission: "Automatic",
   image: "",
-  accent: "#d94436",
+  accent: "#d6206a",
   features: "",
   dailyRate: "179",
   weekendRate: "",
@@ -288,7 +288,7 @@ export function FleetManager({ cars }: { cars: Car[] }) {
                 type="checkbox"
                 checked={draft.active}
                 onChange={(e) => set("active", e.target.checked)}
-                className="h-4.5 w-4.5 accent-[#d94436]"
+                className="h-4.5 w-4.5 accent-[#d6206a]"
               />
               <span className="text-sm font-bold">Show on the website</span>
             </label>

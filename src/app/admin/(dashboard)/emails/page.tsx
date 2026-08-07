@@ -5,7 +5,8 @@ import {
   ownerNewRequest,
 } from "@/emails/templates";
 import { addDays, todayISO } from "@/lib/dates";
-import type { Booking } from "@/lib/types";
+import { getActiveCars } from "@/lib/fleet";
+import type { Booking, Car } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -16,15 +17,22 @@ export const dynamic = "force-dynamic";
  * their branding and contact details look right — without having to make a
  * test booking first.
  */
-function sampleBooking(): Booking {
+function sampleBooking(car: Car | null): Booking {
   const start = addDays(todayISO(), 12);
   const end = addDays(start, 2);
+
+  const dailyRate = car?.dailyRate ?? 189;
+  const weekendRate = car?.weekendRate ?? dailyRate;
+  const cleaningFee = car?.cleaningFee ?? 45;
+  const deliveryFee = car?.deliveryFee ?? 60;
 
   return {
     id: "bk_sample",
     reference: "KC-SAMPLE",
-    carId: "car_sample",
-    carName: "Sakura — Cherry Blossom",
+    carId: car?.id ?? "car_sample",
+    // Uses your real car and rates so the preview matches what customers get,
+    // rather than drifting every time the fleet is edited.
+    carName: car ? `${car.name} — ${car.theme}` : "Your car — Your theme",
     customer: {
       name: "Rosa Martinez",
       email: "rosa@example.com",
@@ -36,18 +44,21 @@ function sampleBooking(): Booking {
     dropoffTime: "17:00",
     occasion: "Quinceañera",
     deliveryRequested: true,
-    deliveryAddress: "14 Alameda St, Springfield",
-    notes: "Arriving at the venue for 2pm — please leave the roof garland on.",
+    deliveryAddress: "1420 W Main St, Visalia, CA",
+    notes: "Arriving at the venue for 2pm — please leave the roof sign lit.",
     status: "pending",
     quote: {
       days: 3,
       lines: [
-        { label: "Weekday rate — 1 day × $189", amount: 189 },
-        { label: "Weekend rate — 2 days × $229", amount: 458 },
-        { label: "Cleaning & prep", amount: 45 },
-        { label: "Delivery & pickup", amount: 60 },
+        { label: `Weekday rate — 1 day × $${dailyRate}`, amount: dailyRate },
+        {
+          label: `Weekend rate — 2 days × $${weekendRate}`,
+          amount: weekendRate * 2,
+        },
+        { label: "Cleaning & prep", amount: cleaningFee },
+        { label: "Delivery & pickup", amount: deliveryFee },
       ],
-      total: 752,
+      total: dailyRate + weekendRate * 2 + cleaningFee + deliveryFee,
     },
     ownerNote: "See you Friday! Parking is round the back.",
     createdAt: new Date().toISOString(),
@@ -55,8 +66,9 @@ function sampleBooking(): Booking {
   };
 }
 
-export default function EmailPreviewPage() {
-  const base = sampleBooking();
+export default async function EmailPreviewPage() {
+  const cars = await getActiveCars();
+  const base = sampleBooking(cars[0] ?? null);
 
   const previews = [
     {

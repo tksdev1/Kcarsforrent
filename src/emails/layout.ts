@@ -10,10 +10,13 @@ export interface EmailRow {
   value: string;
 }
 
-const BRAND = "#d94436";
-const INK = "#1c1917";
-const MUTED = "#78716c";
-const LINE = "#e7e5e4";
+/* Mirrors the site palette in src/app/globals.css. Kept as plain hex constants
+   because email clients strip CSS custom properties. */
+const BRAND = "#d6206a";
+const INK = "#2a1a21";
+const MUTED = "#7c6069";
+const LINE = "#f5d9e6";
+const PAPER = "#fff7fa";
 
 /**
  * Email HTML is deliberately old-fashioned — tables, inline styles, no flexbox.
@@ -37,10 +40,10 @@ export function emailLayout(options: {
 <meta name="color-scheme" content="light">
 <title>${escapeHtml(heading)}</title>
 </head>
-<body style="margin:0;padding:0;background:#faf9f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:${INK};">
+<body style="margin:0;padding:0;background:${PAPER};font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:${INK};">
   <div style="display:none;max-height:0;overflow:hidden;opacity:0;">${escapeHtml(preheader)}</div>
 
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf9f7;padding:32px 16px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAPER};padding:32px 16px;">
     <tr>
       <td align="center">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border:1px solid ${LINE};border-radius:16px;overflow:hidden;">
@@ -61,7 +64,7 @@ export function emailLayout(options: {
           </tr>
 
           <tr>
-            <td style="padding:24px 32px;background:#faf9f7;border-top:1px solid ${LINE};">
+            <td style="padding:24px 32px;background:${PAPER};border-top:1px solid ${LINE};">
               ${
                 footerNote
                   ? `<p style="margin:0 0 12px;font-size:13px;line-height:1.6;color:${MUTED};">${footerNote}</p>`
