@@ -14,13 +14,14 @@ export const metadata: Metadata = {
   },
   description: site.shortDescription,
   keywords: [
-    "kei car rental",
-    "themed car rental",
+    `kei car rental ${site.city}`,
+    `themed car rental ${site.city} ${site.region}`,
     "micro van rental",
     "party car rental",
-    "quinceañera car",
+    "quinceañera car rental",
     "photo shoot car rental",
-    site.city,
+    // People search by their own town, not by "Central Valley".
+    ...site.serviceTowns.map((town) => `car rental ${town} ${site.region}`),
   ],
   openGraph: {
     type: "website",
@@ -49,11 +50,19 @@ const organizationJsonLd = {
   url: site.url,
   telephone: site.phone,
   email: site.email,
-  areaServed: site.serviceArea,
+  // Named City entities rather than one prose string — this is what lets a
+  // search engine match the business to a specific town's results.
+  areaServed: site.serviceTowns.map((town) => ({
+    "@type": "City",
+    name: town,
+    addressRegion: site.region,
+    addressCountry: "US",
+  })),
   address: {
     "@type": "PostalAddress",
     addressLocality: site.city,
     addressRegion: site.region,
+    addressCountry: "US",
   },
   // Omit sameAs entirely rather than emitting an empty array — search engines
   // treat a present-but-empty property as a signal that there are no profiles.

@@ -99,21 +99,32 @@ Three things to do before launch:
 
 ### 1. Your business details
 
-Edit **`src/lib/site.ts`**. Phone and email are set. What's left:
+Edit **`src/lib/site.ts`**. Phone, email and location are set — based in
+Visalia, CA. What's worth a look:
 
-- **City** — still `"Your City"`. This is the one real gap: Google uses it for
-  local search, and the 480 area code only narrows you to Arizona, so it isn't
-  something the site should guess. Set it to the town you actually operate from.
-- **Service area** — currently "Greater metro area — delivery available"
+- **`serviceTowns`** — Visalia, Tulare, Exeter, Farmersville, Goshen, Woodlake,
+  Lindsay, Dinuba, Hanford and Porterville. **Trim any you won't actually drive
+  to.** Each one is listed on the contact page and emitted as a schema.org
+  `City` in `areaServed`, which is what gets you found for "kei car rental
+  Tulare" rather than only for your own town. Claiming a town you won't serve
+  just buys you a wasted enquiry.
 - **Opening hours** — currently Mon–Fri 9–6, Sat 9–8, Sun by appointment
 - **Minimum rental age (21) and security deposit ($250)**
+
+`serviceArea` ("Visalia & nearby towns — delivery available") is the short
+label used in the hero and footer, where a full list wouldn't fit. Keep it
+brief; `serviceTowns` is where the detail belongs.
 
 These feed the header, footer, contact page, emails and the search-engine
 structured data, so getting them right here updates everything at once.
 
-There's no Instagram account yet, so `social.instagram` is `null` and the
-footer shows your phone and email in that spot instead. Fill in the handle and
-URL later and the links reappear on their own.
+There's no Instagram account yet, so `social.instagram` is `null` and those
+links stay hidden. Fill in the handle and URL later and they reappear on their
+own.
+
+> Note: the phone number is a 480 (Arizona) area code while the business
+> operates in Visalia. That's fine and common, but it means the area code isn't
+> a reliable hint about location — `site.city` is the single source of truth.
 
 ### 2. Your real car
 

@@ -57,10 +57,23 @@ export default function ContactPage() {
           </div>
 
           <div>
-            <h2 className="font-display text-xl font-extrabold">Service area</h2>
+            <h2 className="font-display text-xl font-extrabold">Where we go</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              {site.serviceArea}. Pick up from us, or add delivery at checkout
-              and we'll bring the car to you.
+              Based in {site.city}, {site.region}. Pick up from us, or add
+              delivery when you book and we'll bring the car to you in:
+            </p>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {site.serviceTowns.map((town) => (
+                <li
+                  key={town}
+                  className="rounded-full border-[1.5px] border-line bg-white px-3 py-1.5 text-xs font-bold"
+                >
+                  {town}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-sm leading-relaxed text-muted">
+              Somewhere else in the Valley? Ask us — we'll usually make it work.
             </p>
           </div>
 
