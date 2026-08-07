@@ -57,11 +57,11 @@ Set these in **Netlify → Site configuration → Environment variables** (and i
 | --- | --- | --- |
 | `RESEND_API_KEY` | Yes | Sends the emails. Get one at [resend.com/api-keys](https://resend.com/api-keys). |
 | `BOOKING_FROM_EMAIL` | Yes | The "from" address, e.g. `K Cars for Rent <bookings@kcarsforrent.com>`. The domain must be verified in Resend. |
-| `OWNER_NOTIFICATION_EMAIL` | Yes | Where new booking requests are sent (`yuval@thetks.com`). Comma-separate for several people. |
+| `OWNER_NOTIFICATION_EMAIL` | Yes | Where new booking requests are sent (`yuvalm@gmail.com`). Comma-separate for several people. |
 | `ADMIN_PASSWORD` | Yes | Your dashboard password. Make it long and random. |
 | `ADMIN_SESSION_SECRET` | Yes | Signs the login cookie. Generate with `openssl rand -base64 32`. |
 | `NEXT_PUBLIC_SITE_URL` | Yes | `https://kcarsforrent.com` — used for links inside emails. |
-| `BOOKING_REPLY_TO` | No | Where customer replies go, if different from the from address. Set to `yuval@thetks.com` so replies reach your inbox. |
+| `BOOKING_REPLY_TO` | No | Where customer replies go, if different from the from address. Set to `yuvalm@gmail.com` so replies reach your inbox. |
 
 > Without `RESEND_API_KEY` the site still works and still records bookings — it
 > just logs the emails instead of sending them. Handy for local development.
@@ -71,9 +71,10 @@ Set these in **Netlify → Site configuration → Environment variables** (and i
 1. Create an account at [resend.com](https://resend.com).
 2. Add `kcarsforrent.com` under **Domains** and add the DNS records it gives you
    (SPF, DKIM and DMARC) at your domain registrar. This is what stops your
-   confirmations landing in spam — don't skip it. Verify the *site* domain, not
-   `thetks.com`: customers should see mail from the brand they booked with.
-   Replies still land in your `yuval@thetks.com` inbox via `BOOKING_REPLY_TO`.
+   confirmations landing in spam — don't skip it. It has to be a domain you
+   control, so `kcarsforrent.com` rather than a Gmail address — you can't verify
+   `gmail.com`. Replies still land in your `yuvalm@gmail.com` inbox via
+   `BOOKING_REPLY_TO`.
 3. Wait for the domain to show as **Verified**.
 4. Create an API key and put it in `RESEND_API_KEY`.
 
@@ -144,6 +145,14 @@ leaving `weekendRate` unset: when it's unset (or equal to the daily rate), the
 car page shows a single "Daily rate" figure and the quote breakdown collapses to
 one "Rental — N days × $179" line instead of splitting into weekday and weekend
 rows. Set a weekend rate in `/admin/fleet` and both switch back automatically.
+
+**Editing the seed data in code:** the fleet lives in the Blobs store, which is
+written once on first run. Editing `SEED_FLEET` alone therefore does nothing to
+a site that has already been deployed. To make code changes take effect, bump
+`SEED_VERSION` at the top of `src/lib/fleet.ts` — the store then refreshes on
+the next request. It will **not** overwrite a fleet you've edited from the
+dashboard: the first save there latches `ownerEdited` and the dashboard wins
+from then on.
 
 **The site adapts to how many cars are active.** With one, the home and fleet
 pages give it a full-width feature, the copy reads in the singular, and the
