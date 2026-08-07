@@ -39,6 +39,9 @@ export default async function CarPage({ params }: PageProps) {
     .filter((c) => c.id !== car.id)
     .slice(0, 3);
 
+  const hasWeekendRate =
+    car.weekendRate !== undefined && car.weekendRate !== car.dailyRate;
+
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -108,27 +111,6 @@ export default async function CarPage({ params }: PageProps) {
 
           <p className="mt-7 leading-relaxed text-ink-2">{car.description}</p>
 
-          <dl className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {[
-              { label: "Seats", value: String(car.seats) },
-              { label: "Gearbox", value: car.transmission },
-              { label: "Base car", value: car.model },
-              {
-                label: "Minimum",
-                value: `${car.minDays} ${car.minDays === 1 ? "day" : "days"}`,
-              },
-            ].map((spec) => (
-              <div key={spec.label} className="card p-4">
-                <dt className="text-[0.7rem] font-bold uppercase tracking-[0.1em] text-muted">
-                  {spec.label}
-                </dt>
-                <dd className="mt-1.5 text-sm font-bold leading-snug">
-                  {spec.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-
           {car.features.length > 0 && (
             <>
               <h2 className="mt-10 font-display text-xl font-extrabold">
@@ -159,7 +141,10 @@ export default async function CarPage({ params }: PageProps) {
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.12em] text-muted">
-                  Weekday rate
+                  {/* "Weekday rate" only means something next to a weekend
+                      one. On a flat rate it implies a premium that isn't
+                      charged. */}
+                  {hasWeekendRate ? "Weekday rate" : "Daily rate"}
                 </p>
                 <p className="mt-1 font-display text-4xl font-extrabold">
                   {formatMoney(car.dailyRate)}
@@ -168,7 +153,7 @@ export default async function CarPage({ params }: PageProps) {
                   </span>
                 </p>
               </div>
-              {car.weekendRate && car.weekendRate !== car.dailyRate && (
+              {hasWeekendRate && car.weekendRate && (
                 <div className="text-right">
                   <p className="text-xs font-bold uppercase tracking-[0.12em] text-muted">
                     Fri – Sun

@@ -79,7 +79,7 @@ export const carSchema = z.object({
   accent: z
     .string()
     .trim()
-    .regex(/^#[0-9a-fA-F]{6}$/, "Use a hex colour like #d94436."),
+    .regex(/^#[0-9a-fA-F]{6}$/, "Use a hex colour like #d6206a."),
   features: z.string().max(2000).optional().default(""),
   dailyRate: z.coerce.number().min(0).max(100000),
   weekendRate: z.coerce.number().min(0).max(100000).optional(),

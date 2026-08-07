@@ -5,7 +5,6 @@ import { site } from "@/lib/site";
 const FLEET_LINKS = [
   { href: "/fleet", label: "Browse the fleet" },
   { href: "/book", label: "Request a booking" },
-  { href: "/how-it-works", label: "How it works" },
 ];
 
 const INFO_LINKS = [

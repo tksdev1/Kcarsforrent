@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { CarCard } from "@/components/CarCard";
@@ -17,35 +18,6 @@ const OCCASIONS = [
   { emoji: "✨", title: "Just because", copy: "You don't actually need a reason." },
 ];
 
-/** `solo*` variants are used when the fleet is a single car. */
-interface Step {
-  n: string;
-  title: string;
-  copy: string;
-  soloTitle?: string;
-  soloCopy?: string;
-}
-
-const STEPS: Step[] = [
-  {
-    n: "01",
-    title: "Pick your car and dates",
-    soloTitle: "Tell us your dates",
-    copy: "Browse the fleet, find the theme that fits your occasion, and tell us when you need it. Every car shows its real daily rate up front — no hidden fees.",
-    soloCopy: "Tell us when you need the car and what you're celebrating. The real daily rate is shown up front, and the booking form works out your total as you go — no hidden fees.",
-  },
-  {
-    n: "02",
-    title: "We confirm within 24 hours",
-    copy: "We check the car is free and properly prepped for your occasion, then email you a confirmation. Nothing is charged when you request — you only pay at pick-up.",
-  },
-  {
-    n: "03",
-    title: "Collect it, or we bring it",
-    copy: "Come and grab the keys, or add delivery and we'll drop it wherever the celebration is happening. Bring your licence and a card for the deposit hold.",
-  },
-];
-
 export default async function HomePage() {
   const cars = await getActiveCars();
   const featured = cars.slice(0, 3);
@@ -56,11 +28,13 @@ export default async function HomePage() {
   // With a single car, "1 car in the fleet" is a weak thing to lead with — show
   // that car's own specs instead.
   const soloCar = cars.length === 1 ? cars[0] : null;
+  const heroCar = soloCar ?? featured[0] ?? null;
 
   const stats = soloCar
     ? [
-        { label: "Daily rate from", value: formatMoney(soloCar.dailyRate) },
-        { label: "Seats", value: String(soloCar.seats) },
+        // Flat rate, so no "from". Vehicle specs deliberately aren't advertised
+        // here — people book this car for how it looks, not its seat count.
+        { label: "Daily rate", value: formatMoney(soloCar.dailyRate) },
         { label: "Delivery", value: "Available" },
       ]
     : [
@@ -78,9 +52,12 @@ export default async function HomePage() {
       <section className="relative overflow-hidden border-b border-line bg-paper-2 bg-dots">
         <div className="container-page grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
           <div>
+            {/* Just the city here. The full service-area string wraps to two
+                lines at this size and strands the bullet on its own. Delivery
+                is already called out in the stats below. */}
             <p className="eyebrow">
               <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-              Themed Kei cars · {site.serviceArea}
+              Themed Kei cars · {site.city}, {site.region}
             </p>
 
             <h1 className="mt-5 font-display text-5xl font-extrabold leading-[1.02] sm:text-6xl lg:text-7xl">
@@ -95,12 +72,11 @@ export default async function HomePage() {
                 : "A one-of-a-kind fleet of themed Japanese micro vans, built for the occasions worth remembering. Small in size — enormous in character."}
             </p>
 
+            {/* One car, one action. A "see the fleet" button would send people
+                to a page showing the same car that's already featured below. */}
             <div className="mt-9 flex flex-wrap gap-3">
               <Link href="/book" className="btn btn-primary px-7 py-4 text-base">
                 Book a car
-              </Link>
-              <Link href="/fleet" className="btn btn-ghost px-7 py-4 text-base">
-                See the fleet
               </Link>
             </div>
 
@@ -118,16 +94,34 @@ export default async function HomePage() {
             </dl>
           </div>
 
+          {/* Show the actual car when there's a photo of it — no illustration
+              competes with the real thing. Falls back to the drawn van so a
+              brand-new car without a photo still gets a hero. */}
           <div className="relative hidden lg:block">
-            <div
-              aria-hidden
-              className="absolute inset-0 -translate-y-6 rounded-[3rem] bg-brand/8"
-            />
-            <KeiVan
-              accent={featured[0]?.accent ?? "#d94436"}
-              title="A themed Kei micro van"
-              className="relative w-full animate-float drop-shadow-xl"
-            />
+            {heroCar?.image ? (
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border-[1.5px] border-line bg-white shadow-xl">
+                <Image
+                  src={heroCar.image}
+                  alt={`${heroCar.name} — ${heroCar.theme} themed Kei van`}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 0px, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <>
+                <div
+                  aria-hidden
+                  className="absolute inset-0 -translate-y-6 rounded-[3rem] bg-brand/8"
+                />
+                <KeiVan
+                  accent={heroCar?.accent ?? "#d6206a"}
+                  title="A themed Kei micro van"
+                  className="relative w-full animate-float drop-shadow-xl"
+                />
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -200,32 +194,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ------------------------------------------------------- How it works */}
-      <section className="container-page py-20">
-        <p className="eyebrow">How it works</p>
-        <h2 className="mt-4 max-w-2xl font-display text-4xl font-extrabold sm:text-5xl">
-          Rent a ride in three easy steps
-        </h2>
-
-        <ol className="mt-12 grid gap-7 md:grid-cols-3">
-          {STEPS.map((step) => (
-            <li key={step.n} className="card p-7">
-              <span className="font-display text-5xl font-extrabold text-brand/25">
-                {step.n}
-              </span>
-              <h3 className="mt-3 font-display text-xl font-extrabold">
-                {soloCar ? (step.soloTitle ?? step.title) : step.title}
-              </h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-muted">
-                {soloCar ? (step.soloCopy ?? step.copy) : step.copy}
-              </p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
       {/* ----------------------------------------------------------- Occasions */}
-      <section className="border-y border-line bg-paper-2 py-20">
+      {/* Plain background: the fleet section above is already a tinted band, and
+          two in a row read as one long slab with a stray divider through it. */}
+      <section className="py-20">
         <div className="container-page">
           <p className="eyebrow">Occasions</p>
           <h2 className="mt-4 max-w-2xl font-display text-4xl font-extrabold sm:text-5xl">
@@ -262,9 +234,11 @@ export default async function HomePage() {
             aria-hidden
             className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-brand/25 blur-3xl"
           />
+          {/* Blue rather than yellow: warm yellow over the plum-black ground
+              muddies into brown. Pink + blue is the Hello Kitty pairing. */}
           <div
             aria-hidden
-            className="pointer-events-none absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-sun/20 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-sky/25 blur-3xl"
           />
 
           <div className="relative">

@@ -1,21 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  /* Warm paper base — this is a playful, hand-made brand, not a corporate
-     rental desk. Pure white reads clinical against the themed cars. */
-  --color-paper: #faf8f5;
-  --color-paper-2: #f2eee8;
-  --color-ink: #1c1917;
-  --color-ink-2: #44403c;
-  --color-muted: #78716c;
-  --color-line: #e4ded5;
+  /* Palette drawn from the car itself: bubblegum body pink, the hot pink of the
+     "Rent Me!" roof sign, Hello Kitty's red bow and yellow nose, on a
+     barely-pink white. Every text pairing below clears WCAG AA (4.5:1) —
+     pink is easy to get wrong and end up unreadable. */
+  --color-paper: #fff7fa;
+  --color-paper-2: #fce9f1;
+  --color-ink: #2a1a21;
+  --color-ink-2: #4a343e;
+  --color-muted: #7c6069; /* 5.34:1 on paper, 4.84:1 on paper-2 */
+  --color-line: #f5d9e6;
 
-  --color-brand: #d94436;
-  --color-brand-dark: #b8332a;
-  --color-brand-light: #fde8e5;
+  /* 4.91:1 with white text, 4.66:1 as a link on paper. */
+  --color-brand: #d6206a;
+  --color-brand-dark: #b21857;
+  --color-brand-light: #fde4ee;
 
-  --color-sun: #f2b134;
-  --color-mint: #3fb8a5;
+  /* The car's actual body colour. Decorative fills only — far too light to
+     ever sit behind text. */
+  --color-bubblegum: #f2a0be;
+  /* Hello Kitty's bow. */
+  --color-kitty-red: #e4002b;
+
+  --color-sun: #ffc61e;
+  --color-sky: #5fb0d9;
+  --color-mint: #2fa894;
   --color-grape: #8b5cf6;
   --color-blossom: #ec6a9c;
 
@@ -193,7 +203,7 @@
   .bg-dots {
     background-image: radial-gradient(
       circle at 1px 1px,
-      rgba(28, 25, 23, 0.07) 1px,
+      rgba(214, 32, 106, 0.10) 1px,
       transparent 0
     );
     background-size: 22px 22px;

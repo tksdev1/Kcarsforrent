@@ -88,7 +88,7 @@ export function customerRequestReceived(booking: Booking): RenderedEmail {
       ${detailTable(bookingRows(booking))}
       <h2 style="margin:0 0 12px;font-size:16px;font-weight:700;">Estimated cost</h2>
       ${quoteBlock(booking)}
-      <p style="margin:0 0 24px;font-size:13px;line-height:1.6;color:#78716c;">
+      <p style="margin:0 0 24px;font-size:13px;line-height:1.6;color:#7c6069;">
         This estimate covers the rental, prep and any delivery. A refundable
         ${escapeHtml(formatMoney(site.securityDeposit))} security hold is taken at pick-up and released on return.
       </p>
@@ -131,11 +131,11 @@ export function ownerNewRequest(booking: Booking): RenderedEmail {
         { label: "Name", value: escapeHtml(booking.customer.name) },
         {
           label: "Email",
-          value: `<a href="mailto:${escapeHtml(booking.customer.email)}" style="color:#d94436;">${escapeHtml(booking.customer.email)}</a>`,
+          value: `<a href="mailto:${escapeHtml(booking.customer.email)}" style="color:#d6206a;">${escapeHtml(booking.customer.email)}</a>`,
         },
         {
           label: "Phone",
-          value: `<a href="tel:${escapeHtml(booking.customer.phone.replace(/[^\d+]/g, ""))}" style="color:#d94436;">${escapeHtml(booking.customer.phone)}</a>`,
+          value: `<a href="tel:${escapeHtml(booking.customer.phone.replace(/[^\d+]/g, ""))}" style="color:#d6206a;">${escapeHtml(booking.customer.phone)}</a>`,
         },
       ])}
       <h2 style="margin:0 0 12px;font-size:16px;font-weight:700;">Booking</h2>
@@ -143,7 +143,7 @@ export function ownerNewRequest(booking: Booking): RenderedEmail {
       ${
         booking.notes
           ? `<h2 style="margin:0 0 12px;font-size:16px;font-weight:700;">Their notes</h2>
-             <p style="margin:0 0 24px;padding:14px 16px;background:#faf9f7;border:1px solid #e7e5e4;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(booking.notes)}</p>`
+             <p style="margin:0 0 24px;padding:14px 16px;background:#fff7fa;border:1px solid #f5d9e6;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(booking.notes)}</p>`
           : ""
       }
       <h2 style="margin:0 0 12px;font-size:16px;font-weight:700;">Quoted</h2>
@@ -183,7 +183,7 @@ export function customerConfirmed(booking: Booking): RenderedEmail {
       <h2 style="margin:0 0 12px;font-size:16px;font-weight:700;">Cost</h2>
       ${quoteBlock(booking)}
       <h2 style="margin:0 0 12px;font-size:16px;font-weight:700;">What to bring</h2>
-      <ul style="margin:0 0 24px;padding-left:20px;font-size:14px;line-height:1.8;color:#57534e;">
+      <ul style="margin:0 0 24px;padding-left:20px;font-size:14px;line-height:1.8;color:#4a343e;">
         <li>A valid driver's licence (minimum age ${site.minimumAge})</li>
         <li>A payment card for the balance and the refundable ${escapeHtml(formatMoney(site.securityDeposit))} hold</li>
         <li>Proof of insurance, if you're using your own</li>
@@ -191,7 +191,7 @@ export function customerConfirmed(booking: Booking): RenderedEmail {
       ${
         booking.ownerNote
           ? `<h2 style="margin:0 0 12px;font-size:16px;font-weight:700;">A note from us</h2>
-             <p style="margin:0 0 24px;padding:14px 16px;background:#faf9f7;border:1px solid #e7e5e4;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(booking.ownerNote)}</p>`
+             <p style="margin:0 0 24px;padding:14px 16px;background:#fff7fa;border:1px solid #f5d9e6;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(booking.ownerNote)}</p>`
           : ""
       }
     `,
@@ -240,10 +240,10 @@ export function customerStatusChanged(booking: Booking): RenderedEmail {
       ${
         booking.ownerNote
           ? `<h2 style="margin:0 0 12px;font-size:16px;font-weight:700;">A note from us</h2>
-             <p style="margin:0 0 24px;padding:14px 16px;background:#faf9f7;border:1px solid #e7e5e4;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(booking.ownerNote)}</p>`
+             <p style="margin:0 0 24px;padding:14px 16px;background:#fff7fa;border:1px solid #f5d9e6;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(booking.ownerNote)}</p>`
           : ""
       }
-      <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#57534e;">
+      <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#4a343e;">
         We'd still love to get you out in one of ours — other cars and other dates may well be open.
       </p>
       ${button({ label: "Check other dates", url: `${site.url}/fleet` })}
@@ -279,11 +279,11 @@ export function contactMessage(input: {
         { label: "Name", value: escapeHtml(input.name) },
         {
           label: "Email",
-          value: `<a href="mailto:${escapeHtml(input.email)}" style="color:#d94436;">${escapeHtml(input.email)}</a>`,
+          value: `<a href="mailto:${escapeHtml(input.email)}" style="color:#d6206a;">${escapeHtml(input.email)}</a>`,
         },
         { label: "Phone", value: escapeHtml(input.phone || "—") },
       ])}
-      <p style="margin:0;padding:14px 16px;background:#faf9f7;border:1px solid #e7e5e4;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(input.message)}</p>
+      <p style="margin:0;padding:14px 16px;background:#fff7fa;border:1px solid #f5d9e6;border-radius:12px;font-size:14px;line-height:1.6;white-space:pre-wrap;">${escapeHtml(input.message)}</p>
     `,
   });
 

@@ -21,7 +21,16 @@ export interface SiteConfig {
   email: string;
   city: string;
   region: string;
+  /** Short label for tight spots — the hero eyebrow and the footer bar. */
   serviceArea: string;
+  /**
+   * The towns you actually cover, named individually.
+   *
+   * Naming them is what gets you found for "kei car rental Tulare" and the
+   * like — a vague "Central Valley" matches nothing people actually type.
+   * These are listed on the contact page and emitted as schema.org areaServed.
+   */
+  serviceTowns: string[];
   hours: OpeningHours[];
   social: SocialLinks;
   currency: string;
@@ -48,12 +57,24 @@ export const site: SiteConfig = {
   phoneHref: "tel:+14806585391",
   email: "yuval@thetks.com",
 
-  // TODO: replace with your real pickup city and state. The 480 area code is
-  // Arizona, but the site shouldn't guess which town you operate out of —
-  // Google uses this for local search results, so get it exact.
-  city: "Your City",
-  region: "AZ",
-  serviceArea: "Greater metro area — delivery available",
+  city: "Visalia",
+  region: "CA",
+  serviceArea: "Visalia & nearby towns — delivery available",
+
+  // Trim any of these you don't actually travel to. Claiming a town you won't
+  // drive to costs you a wasted enquiry and a disappointed customer.
+  serviceTowns: [
+    "Visalia",
+    "Tulare",
+    "Exeter",
+    "Farmersville",
+    "Goshen",
+    "Woodlake",
+    "Lindsay",
+    "Dinuba",
+    "Hanford",
+    "Porterville",
+  ],
 
   hours: [
     { days: "Monday – Friday", time: "9:00 AM – 6:00 PM" },

@@ -8,7 +8,6 @@ import { site } from "@/lib/site";
 
 const NAV = [
   { href: "/fleet", label: "The Fleet" },
-  { href: "/how-it-works", label: "How It Works" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];

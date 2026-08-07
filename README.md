@@ -99,27 +99,51 @@ Three things to do before launch:
 
 ### 1. Your business details
 
-Edit **`src/lib/site.ts`**. Phone and email are set. What's left:
+Edit **`src/lib/site.ts`**. Phone, email and location are set — based in
+Visalia, CA. What's worth a look:
 
-- **City** — still `"Your City"`. This is the one real gap: Google uses it for
-  local search, and the 480 area code only narrows you to Arizona, so it isn't
-  something the site should guess. Set it to the town you actually operate from.
-- **Service area** — currently "Greater metro area — delivery available"
+- **`serviceTowns`** — Visalia, Tulare, Exeter, Farmersville, Goshen, Woodlake,
+  Lindsay, Dinuba, Hanford and Porterville. **Trim any you won't actually drive
+  to.** Each one is listed on the contact page and emitted as a schema.org
+  `City` in `areaServed`, which is what gets you found for "kei car rental
+  Tulare" rather than only for your own town. Claiming a town you won't serve
+  just buys you a wasted enquiry.
 - **Opening hours** — currently Mon–Fri 9–6, Sat 9–8, Sun by appointment
 - **Minimum rental age (21) and security deposit ($250)**
+
+`serviceArea` ("Visalia & nearby towns — delivery available") is the short
+label used in the hero and footer, where a full list wouldn't fit. Keep it
+brief; `serviceTowns` is where the detail belongs.
 
 These feed the header, footer, contact page, emails and the search-engine
 structured data, so getting them right here updates everything at once.
 
-There's no Instagram account yet, so `social.instagram` is `null` and the
-footer shows your phone and email in that spot instead. Fill in the handle and
-URL later and the links reappear on their own.
+There's no Instagram account yet, so `social.instagram` is `null` and those
+links stay hidden. Fill in the handle and URL later and they reappear on their
+own.
+
+> Note: the phone number is a 480 (Arizona) area code while the business
+> operates in Visalia. That's fine and common, but it means the area code isn't
+> a reliable hint about location — `site.city` is the single source of truth.
 
 ### 2. Your real car
 
-Sign in to `/admin/fleet`. One sample car ships with the project so the site is
-never empty — edit it into your actual car. You set the name, theme, description,
-rates, fees, seating, minimum days and an accent colour.
+The fleet holds one car: **Kitty**, the Hello Kitty–wrapped Suzuki Every, with
+a real photo at `public/fleet/hello-kitty-kei-van.jpg`. Edit it at
+`/admin/fleet` — name, theme, description, rates, fees, seating, minimum days
+and accent colour, no code needed.
+
+The site doesn't advertise vehicle specs — no seat count, transmission or base
+model anywhere. People book this car for how it looks, not its spec sheet. The
+fields still exist on the record and round-trip when you save, so if you ever
+want to show them, re-add the display in `FeaturedCar`, `CarCard` and the car
+page, and the three inputs in `FleetManager`.
+
+The rate is **$179/day, every day** — no weekend premium. That's driven by
+leaving `weekendRate` unset: when it's unset (or equal to the daily rate), the
+car page shows a single "Daily rate" figure and the quote breakdown collapses to
+one "Rental — N days × $179" line instead of splitting into weekday and weekend
+rows. Set a weekend rate in `/admin/fleet` and both switch back automatically.
 
 **The site adapts to how many cars are active.** With one, the home and fleet
 pages give it a full-width feature, the copy reads in the singular, and the
@@ -127,10 +151,30 @@ booking form drops its "choose your car" step so customers go straight to dates.
 Add a second car from the same screen and both switch to a grid automatically —
 no code change.
 
-**Photos:** cars with no photo fall back to an illustrated Kei van in the car's
-accent colour, which is why the site looks finished before you've shot anything.
-To use real photos, either drop files into `public/fleet/` and set the image field
-to `/fleet/sakura.jpg`, or paste a full `https://` URL from wherever you host them.
+**Photos:** drop files into `public/fleet/` and set the image field to
+`/fleet/your-file.jpg`, or paste a full `https://` URL. A car with no photo
+falls back to an illustrated Kei van in its accent colour, so a newly added car
+never shows a broken image.
+
+The home hero shows the car's photo when it has one, and the illustration only
+as a fallback.
+
+## Colour scheme
+
+The palette in `src/app/globals.css` is taken from the car: bubblegum body pink,
+the hot pink of the "Rent Me!" roof sign, Hello Kitty's red bow and yellow nose,
+on a barely-pink white.
+
+Every text pairing clears WCAG AA (4.5:1) — the brand pink `#d6206a` gives
+4.91:1 against white for buttons and 4.66:1 on the page background for links,
+and the muted grey `#7c6069` clears it on both background tints. **If you change
+these, re-check the contrast.** Lighter, prettier pinks fail badly and leave
+buttons that some people genuinely cannot read. `--color-bubblegum` is the car's
+actual body colour and is decorative only: never put text on it.
+
+The same hex values are duplicated as constants at the top of
+`src/emails/layout.ts`, because email clients strip CSS custom properties.
+Change one, change the other.
 
 ### 3. Read the policies page
 
@@ -190,7 +234,7 @@ src/
 │  ├─ page.tsx                 Home
 │  ├─ fleet/                   Fleet listing + car detail pages
 │  ├─ book/                    Booking form + confirmation
-│  ├─ how-it-works/ faq/ policies/ contact/
+│  ├─ faq/ policies/ contact/
 │  ├─ admin/                   Owner dashboard (login + (dashboard) group)
 │  └─ api/                     Booking, availability, contact, admin endpoints
 ├─ components/                 UI, including BookingForm and the admin screens

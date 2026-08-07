@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#d94436"/>
+  <rect width="64" height="64" rx="14" fill="#d6206a"/>
   <text x="32" y="45" text-anchor="middle"
         font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
         font-size="38" font-weight="800" fill="#ffffff">K</text>
