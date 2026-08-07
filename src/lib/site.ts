@@ -55,7 +55,7 @@ export const site: SiteConfig = {
 
   phone: "(480) 658-5391",
   phoneHref: "tel:+14806585391",
-  email: "yuval@thetks.com",
+  email: "yuvalm@gmail.com",
 
   city: "Visalia",
   region: "CA",

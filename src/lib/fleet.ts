@@ -2,6 +2,17 @@ import { getStore } from "./store";
 import type { Car } from "./types";
 
 const KEY = "fleet";
+const META_KEY = "fleet-meta";
+
+/**
+ * Bump this whenever SEED_FLEET below is edited and the new values should
+ * replace what a deployed site already has stored.
+ *
+ * Sites that have never had their fleet edited from the dashboard pick the new
+ * data up on the next request. Sites that HAVE been edited there keep their
+ * version — the dashboard always wins, so bumping this can't destroy real work.
+ */
+const SEED_VERSION = 2;
 
 /**
  * The starter car.
@@ -57,14 +68,48 @@ function sortFleet(cars: Car[]): Car[] {
   );
 }
 
-/** All cars, including inactive ones. Seeds the store on first run. */
+interface FleetMeta {
+  /** Which SEED_VERSION produced the stored fleet. */
+  seedVersion: number;
+  /** True once the fleet has been saved from the dashboard. */
+  ownerEdited: boolean;
+}
+
+async function getMeta(): Promise<FleetMeta> {
+  const meta = await getStore().get<FleetMeta>(META_KEY);
+  // A store seeded before this mechanism existed has no meta — treat it as
+  // version 0 and untouched, which is exactly what it is.
+  return meta ?? { seedVersion: 0, ownerEdited: false };
+}
+
+/**
+ * All cars, including inactive ones.
+ *
+ * Seeds the store on first run, and re-seeds when SEED_VERSION has moved on —
+ * but never once the fleet has been edited from the dashboard. Without the
+ * re-seed, editing SEED_FLEET had no effect on a site that had already been
+ * deployed and seeded, because the store was only ever written when empty.
+ * Owner edits still win permanently: `ownerEdited` is a one-way latch.
+ */
 export async function getAllCars(): Promise<Car[]> {
   const store = getStore();
-  const existing = await store.get<Car[]>(KEY);
-  if (existing && existing.length > 0) return sortFleet(existing);
+  const [existing, meta] = await Promise.all([
+    store.get<Car[]>(KEY),
+    getMeta(),
+  ]);
 
-  await store.set(KEY, SEED_FLEET);
-  return sortFleet(SEED_FLEET);
+  const isEmpty = !existing || existing.length === 0;
+  const seedIsNewer = !meta.ownerEdited && meta.seedVersion < SEED_VERSION;
+
+  if (isEmpty || seedIsNewer) {
+    await Promise.all([
+      store.set(KEY, SEED_FLEET),
+      store.set(META_KEY, { seedVersion: SEED_VERSION, ownerEdited: false }),
+    ]);
+    return sortFleet(SEED_FLEET);
+  }
+
+  return sortFleet(existing);
 }
 
 /** Only the cars that should appear on the public site. */
@@ -80,8 +125,16 @@ export async function getCarById(id: string): Promise<Car | null> {
   return (await getAllCars()).find((car) => car.id === id) ?? null;
 }
 
+/**
+ * Persists the fleet and latches `ownerEdited`, so a future SEED_VERSION bump
+ * can never overwrite something changed from the dashboard.
+ */
 export async function saveAllCars(cars: Car[]): Promise<void> {
-  await getStore().set(KEY, sortFleet(cars));
+  const store = getStore();
+  await Promise.all([
+    store.set(KEY, sortFleet(cars)),
+    store.set(META_KEY, { seedVersion: SEED_VERSION, ownerEdited: true }),
+  ]);
 }
 
 export async function upsertCar(car: Car): Promise<Car> {
