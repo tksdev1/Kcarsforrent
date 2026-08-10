@@ -41,7 +41,7 @@ export function SiteHeader({ logoSrc }: { logoSrc: string | null }) {
             <img
               src={logoSrc}
               alt={site.name}
-              className="h-12 w-auto sm:h-14"
+              className="h-14 w-auto sm:h-[4.5rem]"
             />
           ) : (
             <span className="leading-tight">
