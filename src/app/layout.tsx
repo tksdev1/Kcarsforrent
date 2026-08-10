@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { findLogo } from "@/lib/branding";
 import { site } from "@/lib/site";
 
 import "./globals.css";
@@ -72,6 +73,9 @@ const organizationJsonLd = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // Resolved on the server; the header and footer are client components.
+  const logoSrc = findLogo();
+
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
@@ -81,11 +85,11 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <SiteHeader />
+        <SiteHeader logoSrc={logoSrc} />
         <main id="main" className="flex-1">
           {children}
         </main>
-        <SiteFooter />
+        <SiteFooter logoSrc={logoSrc} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

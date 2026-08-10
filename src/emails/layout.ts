@@ -75,7 +75,15 @@ export function emailLayout(options: {
                 <a href="${site.phoneHref}" style="color:${MUTED};text-decoration:none;">${escapeHtml(site.phone)}</a>
                 &nbsp;·&nbsp;
                 <a href="mailto:${escapeHtml(site.email)}" style="color:${MUTED};text-decoration:none;">${escapeHtml(site.email)}</a><br>
-                <a href="${site.url}" style="color:${BRAND};text-decoration:none;">${escapeHtml(site.url.replace(/^https?:\/\//, ""))}</a>
+                <a href="${site.url}" style="color:${BRAND};text-decoration:none;">${escapeHtml(site.url.replace(/^https?:\/\//, ""))}</a><br>
+                <span style="color:${MUTED};">${escapeHtml(`${site.city}, ${site.region}`)}</span>
+              </p>
+              <!-- A real postal location is a legitimacy signal filters look
+                   for, and CAN-SPAM expects it on commercial mail. -->
+              <p style="margin:12px 0 0;font-size:12px;line-height:1.6;color:${MUTED};">
+                You're receiving this because you requested a booking with
+                ${escapeHtml(site.name)}. This is a transactional message about
+                that booking, not marketing.
               </p>
             </td>
           </tr>

@@ -13,21 +13,20 @@ const INFO_LINKS = [
   { href: "/contact", label: "Contact us" },
 ];
 
-export function SiteFooter() {
+export function SiteFooter({ logoSrc }: { logoSrc: string | null }) {
   return (
     <footer className="mt-24 border-t border-line bg-paper-2">
       <div className="container-page grid gap-10 py-14 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-2.5">
-            <span
-              aria-hidden
-              className="grid h-10 w-10 place-items-center rounded-xl bg-brand text-white font-display text-lg font-extrabold"
-            >
-              K
-            </span>
-            <span className="font-display text-lg font-extrabold tracking-tight">
-              {site.name}
-            </span>
+            {logoSrc ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={logoSrc} alt={site.name} className="h-14 w-auto" />
+            ) : (
+              <span className="font-display text-lg font-extrabold tracking-tight">
+                {site.name}
+              </span>
+            )}
           </div>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
             {site.shortDescription}

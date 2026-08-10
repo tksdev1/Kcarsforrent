@@ -4,8 +4,10 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 import { formatDateShort, formatTime, todayISO } from "@/lib/dates";
+import { EmailStatusPanel } from "@/components/admin/EmailStatusPanel";
+import type { EmailHealth } from "@/lib/email-health";
 import { formatMoney } from "@/lib/site";
-import type { Booking, BookingStatus } from "@/lib/types";
+import type { Booking, BookingStatus, EmailDelivery } from "@/lib/types";
 
 const STATUS_STYLES: Record<BookingStatus, string> = {
   pending: "bg-sun/20 text-[#7c5306] border-sun/40",
@@ -24,7 +26,13 @@ const FILTERS: { key: "all" | BookingStatus; label: string }[] = [
   { key: "all", label: "Everything" },
 ];
 
-export function BookingsBoard({ bookings }: { bookings: Booking[] }) {
+export function BookingsBoard({
+  bookings,
+  emailHealth,
+}: {
+  bookings: Booking[];
+  emailHealth: EmailHealth;
+}) {
   const router = useRouter();
   const [filter, setFilter] = useState<"all" | BookingStatus>("pending");
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -135,6 +143,8 @@ export function BookingsBoard({ bookings }: { bookings: Booking[] }) {
         </div>
       </div>
 
+      <EmailStatusPanel health={emailHealth} />
+
       {flash && (
         <p
           role="status"
@@ -194,6 +204,7 @@ export function BookingsBoard({ bookings }: { bookings: Booking[] }) {
                       <span className="font-mono text-xs font-bold text-muted">
                         {booking.reference}
                       </span>
+                      <EmailBadge delivery={booking.emailDelivery} />
                       {past && booking.status === "confirmed" && (
                         <span className="text-[0.7rem] font-bold uppercase tracking-wider text-muted">
                           · date passed
@@ -340,6 +351,51 @@ export function BookingsBoard({ bookings }: { bookings: Booking[] }) {
         </ul>
       )}
     </>
+  );
+}
+
+/**
+ * Whether this booking's confirmation emails actually went out. Bookings taken
+ * before delivery was recorded have no data, and say so rather than implying
+ * success.
+ */
+function EmailBadge({ delivery }: { delivery?: EmailDelivery }) {
+  if (!delivery) {
+    return (
+      <span
+        title="This booking predates email tracking."
+        className="rounded-full border border-stone-300 bg-stone-100 px-2.5 py-1 text-[0.7rem] font-extrabold uppercase tracking-wider text-stone-500"
+      >
+        Email · unknown
+      </span>
+    );
+  }
+
+  const bothSent =
+    delivery.customer === "sent" && delivery.owner === "sent";
+
+  if (bothSent) {
+    return (
+      <span className="rounded-full border border-mint/40 bg-mint/20 px-2.5 py-1 text-[0.7rem] font-extrabold uppercase tracking-wider text-[#0f5c50]">
+        Emails sent
+      </span>
+    );
+  }
+
+  const parts: string[] = [];
+  if (delivery.customer !== "sent") parts.push("customer");
+  if (delivery.owner !== "sent") parts.push("you");
+  const notConfigured =
+    delivery.customer === "not-configured" ||
+    delivery.owner === "not-configured";
+
+  return (
+    <span
+      title={delivery.error ?? undefined}
+      className="rounded-full border border-brand/40 bg-brand-light px-2.5 py-1 text-[0.7rem] font-extrabold uppercase tracking-wider text-brand-dark"
+    >
+      {notConfigured ? "Email not configured" : `Email failed → ${parts.join(" + ")}`}
+    </span>
   );
 }
 

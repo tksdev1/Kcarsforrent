@@ -21,6 +21,13 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
   const { ref } = await searchParams;
   const booking = ref ? await getBookingByReference(ref) : null;
 
+  // Older bookings have no delivery record; assume the email went out rather
+  // than alarming someone about a send that probably succeeded.
+  const emailReachedCustomer =
+    booking !== null &&
+    (booking.emailDelivery === undefined ||
+      booking.emailDelivery.customer === "sent");
+
   return (
     <section className="container-page py-20">
       <div className="mx-auto max-w-2xl text-center">
@@ -35,12 +42,30 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
           Request received
         </h1>
 
+        {/* Only claim the email was sent if it actually was. Saying "we've
+            emailed you" after a failed send sends people hunting through spam
+            for something that was never delivered. */}
         <p className="mt-5 text-lg leading-relaxed text-ink-2">
-          We've emailed you a copy
-          {booking ? ` at ${booking.customer.email}` : ""}. We review every
-          booking by hand — expect your confirmation within{" "}
-          <strong>24 hours</strong>.
+          {emailReachedCustomer ? (
+            <>
+              We've emailed you a copy at {booking.customer.email}. We review
+              every booking by hand — expect your confirmation within{" "}
+              <strong>24 hours</strong>.
+            </>
+          ) : (
+            <>
+              We've got your request and we review every booking by hand —
+              expect to hear from us within <strong>24 hours</strong>.
+            </>
+          )}
         </p>
+
+        {booking && !emailReachedCustomer && (
+          <p className="mx-auto mt-5 max-w-lg rounded-xl border-[1.5px] border-sun bg-sun/10 px-4 py-3 text-sm leading-relaxed text-ink-2">
+            We couldn't send your confirmation email just now, so please save
+            your reference below. Your request did reach us — nothing is lost.
+          </p>
+        )}
 
         {ref && (
           <p className="mt-8 inline-block rounded-full border-[1.5px] border-line bg-white px-6 py-3">
