@@ -21,7 +21,7 @@ export function SiteFooter({ logoSrc }: { logoSrc: string | null }) {
           <div className="flex items-center gap-2.5">
             {logoSrc ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoSrc} alt={site.name} className="h-14 w-auto" />
+              <img src={logoSrc} alt={site.name} className="h-20 w-auto" />
             ) : (
               <span className="font-display text-lg font-extrabold tracking-tight">
                 {site.name}
