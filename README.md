@@ -50,8 +50,14 @@ Netlify Blobs automatically — no configuration needed.
 
 ### 2. Environment variables
 
-Set these in **Netlify → Site configuration → Environment variables** (and in
-`.env.local` for local development).
+Set these in Netlify (and in `.env.local` for local development). Direct link
+for this project:
+
+> **<https://app.netlify.com/projects/kcars/configuration/env>**
+
+Netlify renamed "Sites" to "Projects", so the menu item is **Project
+configuration → Environment variables**. Older accounts still say *Site
+configuration*. The link above skips the menu entirely.
 
 | Variable | Required | What it's for |
 | --- | --- | --- |
@@ -92,7 +98,11 @@ sending, it just means customers stop seeing the emails.
 **e. Create an API key.** **API Keys → Create**, permission *Sending access*.
 Copy it — Resend shows it once.
 
-**f. Put it in Netlify.** Site configuration → Environment variables:
+**f. Put it in Netlify.** Go straight to
+<https://app.netlify.com/projects/kcars/configuration/env> — that's this
+project's environment variables page. (Via the menu it's **Project
+configuration → Environment variables**; you have to be inside the `kcars`
+project first, since the option doesn't exist at the team level.)
 
 | Key | Value |
 | --- | --- |
@@ -118,6 +128,57 @@ verified yet.
 `"K Cars for Rent <onboarding@resend.dev>"`. That address only delivers to your
 own Resend account address — fine for checking the plumbing, useless for real
 customers. The dashboard flags it so it can't be left on by accident.
+
+## Keeping email out of spam
+
+Inbox placement is mostly DNS and sender identity, not content. In rough order
+of impact:
+
+**1. Verify the domain in Resend (SPF + DKIM).** This is the whole ballgame.
+Unauthenticated mail from an unverified domain goes to spam essentially every
+time. It's step (c) above — don't skip it.
+
+**2. Add a DMARC record.** Resend's setup gives you SPF and DKIM but generally
+not DMARC, and Gmail and Yahoo now expect it. Add one TXT record at your DNS
+host:
+
+| Field | Value |
+| --- | --- |
+| Type | `TXT` |
+| Name / Host | `_dmarc` |
+| Value | `v=DMARC1; p=none; rua=mailto:yuvalm@gmail.com` |
+
+`p=none` means "monitor, don't reject" — the safe starting policy. It satisfies
+the requirement without risking your own mail. Once you've been sending
+cleanly for a few weeks you can tighten it to `p=quarantine`.
+
+**3. Never send *from* a Gmail address.** `gmail.com` publishes a strict DMARC
+policy, so mail sent through Resend claiming to be from it is rejected or
+junked outright — not merely "less likely to be seen". Send from
+`bookings@kcarsforrent.com` and put your Gmail in `BOOKING_REPLY_TO`, which is
+how replies still reach you. **The dashboard refuses to call itself configured
+if you get this wrong**, and says so explicitly, because it's the easiest
+mistake to make here.
+
+**4. Keep the from-domain and the site domain the same.** Sending from a
+domain unrelated to the site looks like spoofing. The dashboard flags a
+mismatch too.
+
+**5. Don't launch on Resend's test address.** `onboarding@resend.dev` only
+delivers to your own Resend account — customers get nothing at all. Also
+flagged.
+
+Beyond that, the emails themselves are already built the way filters like: a
+real plain-text alternative alongside the HTML, no image-only content, no
+link shorteners, every link pointing at your own domain, a genuine reply-to, a
+physical location in the footer, and a line stating the message is
+transactional rather than marketing.
+
+**If mail still lands in spam** after the domain shows Verified, send yourself
+a test from the dashboard and open the raw message — in Gmail, ⋮ → *Show
+original*. `SPF: PASS`, `DKIM: PASS` and `DMARC: PASS` should all be there. If
+DKIM fails, the DNS record was usually pasted with a missing `send.` prefix or
+an added trailing dot.
 
 ### 4. Deploy to Netlify
 

@@ -46,10 +46,18 @@ export function EmailStatusPanel({ health }: { health: EmailHealth }) {
               <li key={problem}>• {problem}</li>
             ))}
           </ul>
+          <a
+            href={health.settingsUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="btn btn-primary mt-4 px-5 py-2.5 text-sm"
+          >
+            Open environment variables in Netlify ↗
+          </a>
           <p className="mt-3 text-xs text-brand-dark/80">
-            Fix these in Netlify → Site configuration → Environment variables,
-            then redeploy. Bookings are never lost either way — they're saved
-            before any email is attempted.
+            Add them there, then <strong>redeploy</strong> — Netlify only reads
+            environment variables on a fresh build. Bookings are never lost
+            either way; they're saved before any email is attempted.
           </p>
         </div>
       )}

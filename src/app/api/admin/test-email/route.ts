@@ -28,7 +28,7 @@ export async function POST() {
       {
         ok: false,
         message:
-          "RESEND_API_KEY isn't set, so nothing was sent. Add it in Netlify → Site configuration → Environment variables, then redeploy.",
+          "RESEND_API_KEY isn't set, so nothing was sent. Add it in Netlify (use the button above), then redeploy.",
         problems: health.problems,
       },
       { status: 400 },
