@@ -225,7 +225,29 @@ own.
 > operates in Visalia. That's fine and common, but it means the area code isn't
 > a reliable hint about location — `site.city` is the single source of truth.
 
-### 2. Your real car
+### 2. Your logo
+
+Save the logo as **`public/logo.png`** (`.svg`, `.webp` and `.jpg` also work)
+and it appears in the site header and footer on the next build. Nothing else to
+change.
+
+A few things worth getting right in the file itself:
+
+- **Transparent background.** The site sits on a near-white pink (`#fff7fa`), so
+  a logo saved on solid white shows a visible square edge behind it.
+- **Trim the empty margin** around the artwork, otherwise it renders smaller
+  than its box suggests.
+- Roughly **square or wider** is fine; it's sized by height (48px on mobile,
+  56px on desktop) with width left automatic.
+
+Until the file exists the header falls back to the wordmark as text, so a
+missing logo can never render as a broken image.
+
+The favicon is still the plain "K" tile in `src/app/icon.svg` and
+`apple-icon.svg`. A detailed logo turns to mush at 32px, so that's usually
+better redrawn as a simplified mark rather than reusing the full artwork.
+
+### 3. Your real car
 
 The fleet holds one car: **Kitty**, the Hello Kitty–wrapped Suzuki Every, with
 a real photo at `public/fleet/hello-kitty-kei-van.jpg`. Edit it at
@@ -283,7 +305,7 @@ The same hex values are duplicated as constants at the top of
 `src/emails/layout.ts`, because email clients strip CSS custom properties.
 Change one, change the other.
 
-### 3. Read the policies page
+### 4. Read the policies page
 
 **`src/app/policies/page.tsx`** contains rental terms covering eligibility,
 deposits, damage and cancellations. They're written to be reasonable and readable,

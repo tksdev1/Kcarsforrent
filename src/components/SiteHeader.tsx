@@ -12,7 +12,7 @@ const NAV = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({ logoSrc }: { logoSrc: string | null }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -33,22 +33,26 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/85 backdrop-blur-md">
-      <div className="container-page flex h-18 items-center justify-between gap-4 py-3">
+      <div className="container-page flex min-h-18 items-center justify-between gap-4 py-3">
         <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          <span
-            aria-hidden
-            className="grid h-10 w-10 place-items-center rounded-xl bg-brand text-white font-display text-lg font-extrabold"
-          >
-            K
-          </span>
-          <span className="leading-tight">
-            <span className="block font-display text-[1.05rem] font-extrabold tracking-tight">
-              {site.name}
+          {logoSrc ? (
+            // The logo already contains the wordmark, so no text beside it.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={logoSrc}
+              alt={site.name}
+              className="h-12 w-auto sm:h-14"
+            />
+          ) : (
+            <span className="leading-tight">
+              <span className="block font-display text-[1.05rem] font-extrabold tracking-tight">
+                {site.name}
+              </span>
+              <span className="block text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-muted">
+                Kei car rentals
+              </span>
             </span>
-            <span className="block text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-muted">
-              Kei car rentals
-            </span>
-          </span>
+          )}
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Main">

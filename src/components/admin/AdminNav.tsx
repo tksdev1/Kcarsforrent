@@ -26,12 +26,6 @@ export function AdminNav() {
     <header className="border-b border-line bg-white">
       <div className="container-page flex flex-wrap items-center gap-x-6 gap-y-3 py-4">
         <Link href="/admin/bookings" className="flex items-center gap-2.5">
-          <span
-            aria-hidden
-            className="grid h-9 w-9 place-items-center rounded-lg bg-brand font-display text-base font-extrabold text-white"
-          >
-            K
-          </span>
           <span className="font-display text-base font-extrabold">
             {site.name}
           </span>

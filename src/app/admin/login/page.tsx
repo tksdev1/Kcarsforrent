@@ -14,13 +14,7 @@ export default function LoginPage() {
     <div className="grid min-h-screen place-items-center bg-paper-2 bg-dots px-5">
       <div className="w-full max-w-sm">
         <div className="text-center">
-          <span
-            aria-hidden
-            className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand font-display text-2xl font-extrabold text-white"
-          >
-            K
-          </span>
-          <h1 className="mt-5 font-display text-3xl font-extrabold">
+          <h1 className="font-display text-3xl font-extrabold">
             Owner dashboard
           </h1>
           <p className="mt-2 text-sm text-muted">{site.name}</p>
