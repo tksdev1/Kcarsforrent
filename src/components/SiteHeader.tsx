@@ -37,11 +37,13 @@ export function SiteHeader({ logoSrc }: { logoSrc: string | null }) {
         <Link href="/" className="flex items-center gap-2.5 shrink-0">
           {logoSrc ? (
             // The logo already contains the wordmark, so no text beside it.
+            // Sized larger than it looks: the file carries ~24% transparent
+            // padding, so the visible artwork is about three quarters of this.
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={logoSrc}
               alt={site.name}
-              className="h-14 w-auto sm:h-[4.5rem]"
+              className="h-[4.5rem] w-auto sm:h-24"
             />
           ) : (
             <span className="leading-tight">

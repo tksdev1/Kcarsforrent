@@ -1,6 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#d6206a"/>
-  <text x="32" y="45" text-anchor="middle"
+  <!-- Simplified mark for tabs and bookmarks. The full logo is unreadable at
+       32px — the cars and "CARS FOR RENT" turn to noise — so this keeps only
+       the "Kei" wordmark in the logo's red (#e60000, sampled from the file). -->
+  <rect width="64" height="64" rx="14" fill="#cc0000"/>
+  <text x="32" y="44" text-anchor="middle"
         font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
-        font-size="38" font-weight="800" fill="#ffffff">K</text>
+        font-size="30" font-weight="800" fill="#ffffff" letter-spacing="-1">Kei</text>
 </svg>

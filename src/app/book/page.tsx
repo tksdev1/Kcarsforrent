@@ -22,7 +22,7 @@ export default async function BookPage() {
         <div className="container-page">
           <p className="eyebrow">Booking</p>
           <h1 className="mt-4 max-w-2xl font-display text-5xl font-extrabold sm:text-6xl">
-            Let's get you booked
+            Let’s get you booked
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-2">
             {cars.length === 1

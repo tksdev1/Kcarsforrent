@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { site } from "@/lib/site";
 
@@ -14,6 +17,13 @@ const INFO_LINKS = [
 ];
 
 export function SiteFooter({ logoSrc }: { logoSrc: string | null }) {
+  const pathname = usePathname();
+
+  // The dashboard is an internal tool; the public marketing footer — fleet
+  // links, the customer-facing blurb — has no business on it. SiteHeader
+  // already bows out of /admin the same way.
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <footer className="mt-24 border-t border-line bg-paper-2">
       <div className="container-page grid gap-10 py-14 md:grid-cols-4">
@@ -21,7 +31,7 @@ export function SiteFooter({ logoSrc }: { logoSrc: string | null }) {
           <div className="flex items-center gap-2.5">
             {logoSrc ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoSrc} alt={site.name} className="h-20 w-auto" />
+              <img src={logoSrc} alt={site.name} className="h-26 w-auto" />
             ) : (
               <span className="font-display text-lg font-extrabold tracking-tight">
                 {site.name}

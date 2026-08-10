@@ -18,7 +18,7 @@ export default function ContactPage() {
             Say hello
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-2">
-            Questions about a car, a date, a custom theme or a big event? We'd
+            Questions about a car, a date, a custom theme or a big event? We’d
             love to hear about it.
           </p>
         </div>
@@ -60,7 +60,7 @@ export default function ContactPage() {
             <h2 className="font-display text-xl font-extrabold">Where we go</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted">
               Based in {site.city}, {site.region}. Pick up from us, or add
-              delivery when you book and we'll bring the car to you in:
+              delivery when you book and we’ll bring the car to you in:
             </p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {site.serviceTowns.map((town) => (
@@ -73,7 +73,7 @@ export default function ContactPage() {
               ))}
             </ul>
             <p className="mt-4 text-sm leading-relaxed text-muted">
-              Somewhere else in the Valley? Ask us — we'll usually make it work.
+              Somewhere else in the Valley? Ask us — we’ll usually make it work.
             </p>
           </div>
 

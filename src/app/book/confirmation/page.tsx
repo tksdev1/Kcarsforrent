@@ -48,13 +48,13 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
         <p className="mt-5 text-lg leading-relaxed text-ink-2">
           {emailReachedCustomer ? (
             <>
-              We've emailed you a copy at {booking.customer.email}. We review
+              We’ve emailed you a copy at {booking.customer.email}. We review
               every booking by hand — expect your confirmation within{" "}
               <strong>24 hours</strong>.
             </>
           ) : (
             <>
-              We've got your request and we review every booking by hand —
+              We’ve got your request and we review every booking by hand —
               expect to hear from us within <strong>24 hours</strong>.
             </>
           )}
@@ -62,7 +62,7 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
 
         {booking && !emailReachedCustomer && (
           <p className="mx-auto mt-5 max-w-lg rounded-xl border-[1.5px] border-sun bg-sun/10 px-4 py-3 text-sm leading-relaxed text-ink-2">
-            We couldn't send your confirmation email just now, so please save
+            We couldn’t send your confirmation email just now, so please save
             your reference below. Your request did reach us — nothing is lost.
           </p>
         )}
@@ -144,7 +144,7 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
       </div>
 
       <p className="mt-8 text-center text-sm text-muted">
-        Didn't get an email? Check your spam folder, or{" "}
+        Didn’t get an email? Check your spam folder, or{" "}
         <Link href="/contact" className="font-bold text-brand underline">
           get in touch
         </Link>

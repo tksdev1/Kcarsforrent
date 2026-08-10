@@ -81,7 +81,7 @@ export function BlackoutManager({
     <>
       <h1 className="font-display text-4xl font-extrabold">Blocked dates</h1>
       <p className="mt-2 max-w-2xl text-sm text-muted">
-        Block out maintenance, private use or holidays. Blocked dates can't be
+        Block out maintenance, private use or holidays. Blocked dates can’t be
         requested on the website — customers see the car as unavailable.
       </p>
 
