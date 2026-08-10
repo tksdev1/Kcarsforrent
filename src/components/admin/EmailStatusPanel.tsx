@@ -39,7 +39,7 @@ export function EmailStatusPanel({ health }: { health: EmailHealth }) {
           className="rounded-xl border-[1.5px] border-brand bg-brand-light px-5 py-4"
         >
           <p className="font-display text-lg font-extrabold text-brand-dark">
-            Email isn't fully set up
+            Email isn’t fully set up
           </p>
           <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-brand-dark">
             {health.problems.map((problem) => (
@@ -57,7 +57,7 @@ export function EmailStatusPanel({ health }: { health: EmailHealth }) {
           <p className="mt-3 text-xs text-brand-dark/80">
             Add them there, then <strong>redeploy</strong> — Netlify only reads
             environment variables on a fresh build. Bookings are never lost
-            either way; they're saved before any email is attempted.
+            either way; they’re saved before any email is attempted.
           </p>
         </div>
       )}

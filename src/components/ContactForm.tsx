@@ -53,7 +53,7 @@ export function ContactForm() {
           Message sent
         </h2>
         <p className="mx-auto mt-3 max-w-sm text-muted">
-          Thanks {name.split(" ")[0]} — we'll get back to you shortly. If it's
+          Thanks {name.split(" ")[0]} — we’ll get back to you shortly. If it’s
           urgent, give us a call on {site.phone}.
         </p>
       </div>

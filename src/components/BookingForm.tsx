@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
@@ -179,7 +180,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
           No cars available right now
         </h2>
         <p className="mx-auto mt-3 max-w-md text-muted">
-          Please get in touch and we'll let you know the moment something opens
+          Please get in touch and we’ll let you know the moment something opens
           up for your dates.
         </p>
       </div>
@@ -265,7 +266,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
               />
               <div className="min-w-0">
                 <p className="text-[0.7rem] font-bold uppercase tracking-[0.12em] text-muted">
-                  You're booking
+                  You’re booking
                 </p>
                 <p className="font-display text-xl font-extrabold">
                   {car.name}
@@ -409,7 +410,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
                   )}
                 </span>
                 <span className="mt-0.5 block text-xs text-muted">
-                  We'll drop the car off and collect it afterwards.
+                  We’ll drop the car off and collect it afterwards.
                 </span>
               </span>
             </label>
@@ -510,11 +511,16 @@ export function BookingForm({ cars }: { cars: Car[] }) {
               aria-invalid={Boolean(errors.agreed)}
             />
             <span className="text-sm leading-relaxed text-ink-2">
-              I'm {site.minimumAge} or older, hold a valid driver's licence, and
-              I've read the{" "}
-              <a href="/policies" className="font-bold text-brand underline">
+              I’m {site.minimumAge} or older, hold a valid driver’s licence, and
+              I’ve read the{" "}
+              <Link
+                href="/policies"
+                target="_blank"
+                rel="noopener"
+                className="font-bold text-brand underline"
+              >
                 rental policies
-              </a>
+              </Link>
               .
             </span>
           </label>
@@ -568,7 +574,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
               </>
             ) : (
               <p className="text-sm text-muted">
-                Pick your dates and we'll work out the total.
+                Pick your dates and we’ll work out the total.
               </p>
             )}
 
@@ -581,7 +587,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
             </button>
 
             <p className="mt-3 text-center text-xs leading-relaxed text-muted">
-              Free to request. Nothing is charged now — we'll email you a
+              Free to request. Nothing is charged now — we’ll email you a
               confirmation within 24 hours.
             </p>
           </div>

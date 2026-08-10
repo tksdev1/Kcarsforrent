@@ -40,8 +40,8 @@ export default async function FleetPage() {
               The fleet is being updated
             </h2>
             <p className="mx-auto mt-3 max-w-md text-muted">
-              We're between listings right now. Get in touch and we'll tell you
-              exactly what's available for your dates.
+              We’re between listings right now. Get in touch and we’ll tell you
+              exactly what’s available for your dates.
             </p>
             <Link href="/contact" className="btn btn-primary mt-7">
               Contact us

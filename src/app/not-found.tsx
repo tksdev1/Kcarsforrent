@@ -14,7 +14,7 @@ export default function NotFound() {
         Wrong turn
       </h1>
       <p className="mx-auto mt-5 max-w-md text-lg leading-relaxed text-ink-2">
-        We couldn't find that page. It may have moved, or the link might have a
+        We couldn’t find that page. It may have moved, or the link might have a
         typo in it.
       </p>
       <div className="mt-9 flex flex-wrap justify-center gap-3">

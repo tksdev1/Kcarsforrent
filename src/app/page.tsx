@@ -242,7 +242,7 @@ export default async function HomePage() {
               Your occasion deserves a better car
             </h2>
             <p className="mx-auto mt-5 max-w-lg text-lg leading-relaxed text-white/70">
-              Tell us the date and the vibe. We'll confirm within 24 hours — and
+              Tell us the date and the vibe. We’ll confirm within 24 hours — and
               nothing is charged until pick-up.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-3">
