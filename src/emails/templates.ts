@@ -297,3 +297,54 @@ ${input.message}`;
 
   return { subject: `Website enquiry from ${input.name}`, html, text };
 }
+
+/**
+ * One-click check that email is actually working.
+ *
+ * Sent from the dashboard so the owner can verify the API key, the from
+ * address and the recipient without having to fake a booking first.
+ */
+export function testEmail(): RenderedEmail {
+  const html = emailLayout({
+    preheader: "Your booking emails are working.",
+    heading: "Email is working",
+    intro:
+      "If this landed in your inbox, your Resend key, sending address and notification address are all set up correctly. Booking confirmations will go out the same way.",
+    body: `
+      ${callout("<strong>Nothing else to do.</strong> This was a test — no booking was created.", "good")}
+      ${detailTable([
+        {
+          label: "Sent from",
+          value: escapeHtml(
+            process.env.BOOKING_FROM_EMAIL ?? "Resend default address",
+          ),
+        },
+        {
+          label: "Sent to",
+          value: escapeHtml(process.env.OWNER_NOTIFICATION_EMAIL ?? "—"),
+        },
+        { label: "Sent at", value: escapeHtml(new Date().toUTCString()) },
+      ])}
+      <p style="margin:0;font-size:13px;line-height:1.6;color:#7c6069;">
+        If this arrived in spam rather than your inbox, your domain's SPF, DKIM
+        and DMARC records probably aren't verified in Resend yet.
+      </p>
+    `,
+  });
+
+  const text = `EMAIL IS WORKING
+
+If this landed in your inbox, your Resend key, sending address and notification address are all set up correctly. Booking confirmations will go out the same way.
+
+This was a test — no booking was created.
+
+Sent from: ${process.env.BOOKING_FROM_EMAIL ?? "Resend default address"}
+Sent to:   ${process.env.OWNER_NOTIFICATION_EMAIL ?? "—"}
+Sent at:   ${new Date().toUTCString()}
+
+If this arrived in spam, your domain's SPF, DKIM and DMARC records probably aren't verified in Resend yet.
+
+${site.name}`;
+
+  return { subject: "Test — your K Cars booking emails are working", html, text };
+}

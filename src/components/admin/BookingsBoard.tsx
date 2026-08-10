@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 import { formatDateShort, formatTime, todayISO } from "@/lib/dates";
+import { EmailStatusPanel } from "@/components/admin/EmailStatusPanel";
 import type { EmailHealth } from "@/lib/email-health";
 import { formatMoney } from "@/lib/site";
 import type { Booking, BookingStatus, EmailDelivery } from "@/lib/types";
@@ -142,26 +143,7 @@ export function BookingsBoard({
         </div>
       </div>
 
-      {!emailHealth.configured && (
-        <div
-          role="alert"
-          className="mt-6 rounded-xl border-[1.5px] border-brand bg-brand-light px-5 py-4"
-        >
-          <p className="font-display text-lg font-extrabold text-brand-dark">
-            Email isn't fully set up
-          </p>
-          <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-brand-dark">
-            {emailHealth.problems.map((problem) => (
-              <li key={problem}>• {problem}</li>
-            ))}
-          </ul>
-          <p className="mt-3 text-xs text-brand-dark/80">
-            Fix these in Netlify → Site configuration → Environment variables,
-            then redeploy. Bookings are never lost either way — they're saved
-            before any email is attempted.
-          </p>
-        </div>
-      )}
+      <EmailStatusPanel health={emailHealth} />
 
       {flash && (
         <p

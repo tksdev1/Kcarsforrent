@@ -68,19 +68,56 @@ Set these in **Netlify → Site configuration → Environment variables** (and i
 
 ### 3. Set up Resend
 
-1. Create an account at [resend.com](https://resend.com).
-2. Add `kcarsforrent.com` under **Domains** and add the DNS records it gives you
-   (SPF, DKIM and DMARC) at your domain registrar. This is what stops your
-   confirmations landing in spam — don't skip it. It has to be a domain you
-   control, so `kcarsforrent.com` rather than a Gmail address — you can't verify
-   `gmail.com`. Replies still land in your `yuvalm@gmail.com` inbox via
-   `BOOKING_REPLY_TO`.
-3. Wait for the domain to show as **Verified**.
-4. Create an API key and put it in `RESEND_API_KEY`.
+Roughly 15 minutes, most of it waiting for DNS.
 
-Before the domain is verified you can test with
-`BOOKING_FROM_EMAIL="K Cars for Rent <onboarding@resend.dev>"`, which only
-delivers to your own Resend account address.
+**a. Create the account.** Sign up at [resend.com](https://resend.com) with
+`yuvalm@gmail.com`. The free tier covers 3,000 emails a month and 100 a day —
+far more than this site will use.
+
+**b. Add the domain.** In Resend go to **Domains → Add Domain** and enter
+`kcarsforrent.com`. It has to be a domain you control; you cannot verify
+`gmail.com`.
+
+**c. Add the DNS records.** Resend shows three records — an MX and two TXT
+(DKIM and SPF). Add them wherever `kcarsforrent.com`'s DNS lives — that's your
+domain registrar, or Netlify if you've moved DNS there. Copy the values exactly;
+a trailing dot or a missing `send.` subdomain is the usual reason verification
+stalls.
+
+This step is what keeps confirmations out of spam. Skipping it doesn't break
+sending, it just means customers stop seeing the emails.
+
+**d. Wait for Verified.** Usually minutes, occasionally up to an hour.
+
+**e. Create an API key.** **API Keys → Create**, permission *Sending access*.
+Copy it — Resend shows it once.
+
+**f. Put it in Netlify.** Site configuration → Environment variables:
+
+| Key | Value |
+| --- | --- |
+| `RESEND_API_KEY` | the key from step (e) |
+| `BOOKING_FROM_EMAIL` | `K Cars for Rent <bookings@kcarsforrent.com>` |
+| `OWNER_NOTIFICATION_EMAIL` | `yuvalm@gmail.com` |
+| `BOOKING_REPLY_TO` | `yuvalm@gmail.com` |
+| `NEXT_PUBLIC_SITE_URL` | `https://kcarsforrent.com` |
+| `ADMIN_PASSWORD` | a long random passphrase |
+| `ADMIN_SESSION_SECRET` | output of `openssl rand -base64 32` |
+
+Then **redeploy** — Netlify only picks up environment variables on a new build.
+
+**g. Prove it works.** Open `/admin/bookings` and hit **Send test email**. It
+sends a real message to your notification address and tells you exactly what
+happened: sent, key missing, or the provider's error verbatim. No need to make
+a fake booking.
+
+If it lands in spam rather than the inbox, the DNS records in step (c) aren't
+verified yet.
+
+**Testing before the domain verifies:** set `BOOKING_FROM_EMAIL` to
+`"K Cars for Rent <onboarding@resend.dev>"`. That address only delivers to your
+own Resend account address — fine for checking the plumbing, useless for real
+customers. The dashboard flags it so it can't be left on by accident.
 
 ### 4. Deploy to Netlify
 
