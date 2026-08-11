@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { LOGO_HEIGHT, LOGO_SRC, LOGO_WIDTH } from "@/lib/logo";
 import { site } from "@/lib/site";
 
 const NAV = [
@@ -12,7 +13,7 @@ const NAV = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function SiteHeader({ logoSrc }: { logoSrc: string | null }) {
+export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -35,26 +36,14 @@ export function SiteHeader({ logoSrc }: { logoSrc: string | null }) {
     <header className="sticky top-0 z-40 border-b border-line bg-paper/85 backdrop-blur-md">
       <div className="container-page flex min-h-18 items-center justify-between gap-4 py-3">
         <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          {logoSrc ? (
-            // The logo already contains the wordmark, so no text beside it.
-            // Sized larger than it looks: the file carries ~24% transparent
-            // padding, so the visible artwork is about three quarters of this.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={logoSrc}
-              alt={site.name}
-              className="h-[4.5rem] w-auto sm:h-24"
-            />
-          ) : (
-            <span className="leading-tight">
-              <span className="block font-display text-[1.05rem] font-extrabold tracking-tight">
-                {site.name}
-              </span>
-              <span className="block text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-muted">
-                Kei car rentals
-              </span>
-            </span>
-          )}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={LOGO_SRC}
+            width={LOGO_WIDTH}
+            height={LOGO_HEIGHT}
+            alt={site.name}
+            className="h-[4.5rem] w-auto sm:h-24"
+          />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
