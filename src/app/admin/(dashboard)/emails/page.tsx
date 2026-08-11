@@ -41,8 +41,6 @@ function sampleBooking(car: Car): Booking {
     pickupTime: "10:00",
     dropoffTime: "17:00",
     occasion: "Quinceañera",
-    deliveryRequested: true,
-    deliveryAddress: "1420 W Main St, Visalia, CA",
     notes: "Arriving at the venue for 2pm — please leave the roof sign lit.",
     status: "pending",
     quote,

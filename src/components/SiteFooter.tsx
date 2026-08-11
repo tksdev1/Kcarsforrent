@@ -106,15 +106,13 @@ export function SiteFooter() {
             Get in touch
           </h3>
           <div className="mt-4 space-y-1 text-sm text-muted">
-            <a
-              href={site.phoneHref}
+            <Link
+              href="/contact"
               className="block font-bold text-ink-2 transition-colors hover:text-brand"
             >
-              {site.phone}
-            </a>
-            <Link href="/contact" className="block transition-colors hover:text-brand">
               Send us a message
             </Link>
+            <p>We reply to every enquiry within 24 hours.</p>
           </div>
         </div>
       </div>

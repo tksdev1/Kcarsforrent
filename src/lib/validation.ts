@@ -25,8 +25,6 @@ export const bookingRequestSchema = z
     pickupTime: time,
     dropoffTime: time,
     occasion: z.string().trim().max(120).optional().default(""),
-    deliveryRequested: z.boolean().optional().default(false),
-    deliveryAddress: z.string().trim().max(300).optional().default(""),
     notes: z.string().trim().max(2000).optional().default(""),
     /**
      * Honeypot — real people leave this empty. Deliberately permissive: the
@@ -42,14 +40,7 @@ export const bookingRequestSchema = z
   .refine((data) => rentalDays(data.startDate, data.endDate) <= 30, {
     message: "For rentals longer than 30 days, please contact us directly.",
     path: ["endDate"],
-  })
-  .refine(
-    (data) => !data.deliveryRequested || data.deliveryAddress.trim().length > 5,
-    {
-      message: "Add the address you'd like the car delivered to.",
-      path: ["deliveryAddress"],
-    },
-  );
+  });
 
 export type BookingRequestInput = z.infer<typeof bookingRequestSchema>;
 

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { formatMoney, site } from "@/lib/site";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: `Common questions about renting a themed Kei car from ${site.name} — age limits, insurance, delivery, mileage and deposits.`,
+  description: `Common questions about renting a themed Kei car from ${site.name} — age limits, insurance, mileage and how booking works.`,
 };
 
 /**
@@ -25,14 +25,6 @@ const FAQS = [
   {
     q: "Am I paying when I submit the booking form?",
     a: "No. Submitting the form sends us a request — nothing is charged. We confirm by email within 24 hours, and you pay at pick-up.",
-  },
-  {
-    q: "What's the security deposit?",
-    a: `A refundable ${formatMoney(site.securityDeposit)} hold is placed on your card at pick-up. It's released when the car comes back in the same condition it left in.`,
-  },
-  {
-    q: "Do you deliver?",
-    a: "Yes, and it's free. Add delivery when you book and we'll drop the car wherever your event is happening, then collect it afterwards.",
   },
   {
     q: "Is insurance included?",
@@ -109,12 +101,12 @@ export default function FaqPage() {
             <Link href="/contact" className="btn btn-primary">
               Get in touch
             </Link>
-            <a
-              href={site.phoneHref}
+            <Link
+              href="/book"
               className="btn border-[1.5px] border-white/25 text-white hover:border-white"
             >
-              {site.phone}
-            </a>
+              Request a booking
+            </Link>
           </div>
         </div>
       </section>

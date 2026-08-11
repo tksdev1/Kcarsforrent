@@ -42,8 +42,6 @@ export function BookingForm({ cars }: { cars: Car[] }) {
   const [pickupTime, setPickupTime] = useState("10:00");
   const [dropoffTime, setDropoffTime] = useState("17:00");
   const [occasion, setOccasion] = useState("");
-  const [deliveryRequested, setDeliveryRequested] = useState(false);
-  const [deliveryAddress, setDeliveryAddress] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -142,8 +140,6 @@ export function BookingForm({ cars }: { cars: Car[] }) {
           pickupTime,
           dropoffTime,
           occasion,
-          deliveryRequested,
-          deliveryAddress,
           notes,
           website,
         }),
@@ -167,7 +163,7 @@ export function BookingForm({ cars }: { cars: Car[] }) {
       router.push(`/book/confirmation?ref=${encodeURIComponent(data.reference)}`);
     } catch {
       setErrors({
-        form: `We couldn't submit that. Please try again, or call us on ${site.phone}.`,
+        form: "We couldn't submit that — it may have been a connection blip. Please try again, and if it keeps happening send us a message from the contact page.",
       });
       setSubmitting(false);
     }
@@ -393,43 +389,6 @@ export function BookingForm({ cars }: { cars: Car[] }) {
               </select>
             </Field>
 
-            <label className="flex cursor-pointer items-start gap-3 rounded-xl border-[1.5px] border-line bg-white p-4">
-              <input
-                type="checkbox"
-                checked={deliveryRequested}
-                onChange={(e) => setDeliveryRequested(e.target.checked)}
-                className="mt-0.5 h-4.5 w-4.5 accent-[#d6206a]"
-              />
-              <span>
-                <span className="block text-sm font-bold">
-                  Deliver it to me
-                  <span className="ml-1.5 font-semibold text-muted">
-                    Free
-                  </span>
-                </span>
-                <span className="mt-0.5 block text-xs text-muted">
-                  We’ll drop the car off and collect it afterwards.
-                </span>
-              </span>
-            </label>
-
-            {deliveryRequested && (
-              <Field
-                label="Delivery address"
-                error={errors.deliveryAddress}
-                required
-              >
-                <input
-                  type="text"
-                  className="field-input"
-                  value={deliveryAddress}
-                  onChange={(e) => setDeliveryAddress(e.target.value)}
-                  placeholder="Street, city, ZIP"
-                  aria-invalid={Boolean(errors.deliveryAddress)}
-                />
-              </Field>
-            )}
-
             <Field label="Anything else we should know?" error={errors.notes}>
               <textarea
                 className="field-input min-h-28 resize-y"
@@ -566,8 +525,8 @@ export function BookingForm({ cars }: { cars: Car[] }) {
                 </div>
 
                 <p className="mt-3 text-xs leading-relaxed text-muted">
-                  Plus a refundable {formatMoney(site.securityDeposit)} security
-                  hold at pick-up, released when the car comes back.
+                  That’s the full price — no deposit, and nothing is charged
+                  until pick-up.
                 </p>
               </>
             ) : (

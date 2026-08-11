@@ -250,14 +250,6 @@ export function BookingsBoard({
                       <Row label="Occasion" value={booking.occasion} />
                     )}
                     <Row
-                      label="Delivery"
-                      value={
-                        booking.deliveryRequested
-                          ? booking.deliveryAddress || "Yes — address TBC"
-                          : "Collecting"
-                      }
-                    />
-                    <Row
                       label="Quoted"
                       value={formatMoney(booking.quote.total)}
                     />

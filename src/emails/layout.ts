@@ -72,7 +72,7 @@ export function emailLayout(options: {
               }
               <p style="margin:0;font-size:13px;line-height:1.7;color:${MUTED};">
                 <strong style="color:${INK};">${escapeHtml(site.name)}</strong><br>
-                <a href="${site.phoneHref}" style="color:${MUTED};text-decoration:none;">${escapeHtml(site.phone)}</a><br>
+                <a href="${site.url}/contact" style="color:${MUTED};text-decoration:none;">Contact us</a><br>
                 <a href="${site.url}" style="color:${BRAND};text-decoration:none;">${escapeHtml(site.url.replace(/^https?:\/\//, ""))}</a><br>
                 <span style="color:${MUTED};">${escapeHtml(`${site.city}, ${site.region}`)}</span>
               </p>

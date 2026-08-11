@@ -190,14 +190,8 @@ export default async function CarPage({ params }: PageProps) {
                 <span className="font-semibold text-ink-2">Included</span>
               </li>
               <li className="flex justify-between gap-4">
-                <span>Delivery &amp; pickup (optional)</span>
-                <span className="font-semibold text-ink-2">Included</span>
-              </li>
-              <li className="flex justify-between gap-4">
-                <span>Refundable security hold</span>
-                <span className="font-semibold text-ink-2">
-                  {formatMoney(site.securityDeposit)}
-                </span>
+                <span>Security deposit</span>
+                <span className="font-semibold text-ink-2">None</span>
               </li>
             </ul>
 

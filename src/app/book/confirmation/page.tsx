@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { formatDateLong, formatTime } from "@/lib/dates";
 import { getBookingByReference } from "@/lib/bookings";
-import { formatMoney, site } from "@/lib/site";
+import { formatMoney } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -106,12 +106,6 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
                 ? [{ label: "Occasion", value: booking.occasion }]
                 : []),
               {
-                label: "Delivery",
-                value: booking.deliveryRequested
-                  ? booking.deliveryAddress || "Yes — address to confirm"
-                  : "Collecting in person",
-              },
-              {
                 label: "Estimated total",
                 value: formatMoney(booking.quote.total),
               },
@@ -128,8 +122,7 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
 
           <p className="border-t border-line bg-paper-2 px-7 py-4 text-xs leading-relaxed text-muted">
             This is a request, not a confirmed booking, and nothing has been
-            charged. A refundable {formatMoney(site.securityDeposit)} security
-            hold is taken at pick-up.
+            charged. There’s no deposit — you pay the total at pick-up.
           </p>
         </div>
       )}
@@ -138,9 +131,9 @@ export default async function ConfirmationPage({ searchParams }: PageProps) {
         <Link href="/fleet" className="btn btn-ghost">
           Back to the fleet
         </Link>
-        <a href={site.phoneHref} className="btn btn-primary">
-          Call us on {site.phone}
-        </a>
+        <Link href="/contact" className="btn btn-primary">
+          Get in touch
+        </Link>
       </div>
 
       <p className="mt-8 text-center text-sm text-muted">

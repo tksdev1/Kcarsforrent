@@ -16,8 +16,6 @@ export interface SiteConfig {
   tagline: string;
   shortDescription: string;
   url: string;
-  phone: string;
-  phoneHref: string;
   city: string;
   region: string;
   /** Short label for tight spots — the hero eyebrow and the footer bar. */
@@ -34,7 +32,6 @@ export interface SiteConfig {
   social: SocialLinks;
   currency: string;
   minimumAge: number;
-  securityDeposit: number;
 }
 
 /**
@@ -52,16 +49,16 @@ export const site: SiteConfig = {
 
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://kcarsforrent.com",
 
-  // No public email address by choice — customers reach us by phone or through
-  // the contact form. Where booking and contact notifications land is a
+  // No public phone number or email address by choice — every enquiry comes in
+  // through the booking and contact forms. Where those notifications land is a
   // separate, private setting: the OWNER_NOTIFICATION_EMAIL environment
-  // variable, which is never rendered on the site.
-  phone: "(480) 658-5391",
-  phoneHref: "tel:+14806585391",
+  // variable, which is never rendered on the site. Because the forms are now
+  // the only way in, anywhere that used to say "if this fails, call us" points
+  // at the contact form instead.
 
   city: "Visalia",
   region: "CA",
-  serviceArea: "Visalia & nearby towns — delivery available",
+  serviceArea: "Visalia & nearby towns",
 
   // Trim any of these you don't actually travel to. Claiming a town you won't
   // drive to costs you a wasted enquiry and a disappointed customer.
@@ -95,9 +92,6 @@ export const site: SiteConfig = {
 
   /** Minimum age to rent. Shown on the policies page and the booking form. */
   minimumAge: 21,
-
-  /** Refundable security hold taken at pickup. */
-  securityDeposit: 250,
 };
 
 export function formatMoney(amount: number): string {

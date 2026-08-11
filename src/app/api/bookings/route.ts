@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         message:
-          "Something went wrong on our end and your request wasn't saved. Please try again, or call us and we'll take the booking over the phone.",
+          "Something went wrong on our end and your request wasn't saved. Please try again in a moment — and if it still won't go through, send us a message from the contact page and we'll book you in by hand.",
       },
       { status: 500 },
     );
@@ -174,8 +174,6 @@ async function handleBooking(request: Request) {
     pickupTime: input.pickupTime,
     dropoffTime: input.dropoffTime,
     occasion: input.occasion,
-    deliveryRequested: input.deliveryRequested,
-    deliveryAddress: input.deliveryRequested ? input.deliveryAddress : "",
     notes: input.notes,
     status: "pending",
     quote: buildQuote({

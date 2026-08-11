@@ -76,8 +76,6 @@ export interface Booking {
   pickupTime: string;
   dropoffTime: string;
   occasion: string;
-  deliveryRequested: boolean;
-  deliveryAddress: string;
   notes: string;
   status: BookingStatus;
   /** Estimated total at time of request, in whole currency units. */
