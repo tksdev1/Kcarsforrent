@@ -18,7 +18,6 @@ export interface SiteConfig {
   url: string;
   phone: string;
   phoneHref: string;
-  email: string;
   city: string;
   region: string;
   /** Short label for tight spots — the hero eyebrow and the footer bar. */
@@ -53,9 +52,12 @@ export const site: SiteConfig = {
 
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://kcarsforrent.com",
 
+  // No public email address by choice — customers reach us by phone or through
+  // the contact form. Where booking and contact notifications land is a
+  // separate, private setting: the OWNER_NOTIFICATION_EMAIL environment
+  // variable, which is never rendered on the site.
   phone: "(480) 658-5391",
   phoneHref: "tel:+14806585391",
-  email: "yuvalm@gmail.com",
 
   city: "Visalia",
   region: "CA",

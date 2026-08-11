@@ -49,7 +49,6 @@ const organizationJsonLd = {
   description: site.shortDescription,
   url: site.url,
   telephone: site.phone,
-  email: site.email,
   // Named City entities rather than one prose string — this is what lets a
   // search engine match the business to a specific town's results.
   areaServed: site.serviceTowns.map((town) => ({

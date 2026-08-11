@@ -32,7 +32,7 @@ const FAQS = [
   },
   {
     q: "Do you deliver?",
-    a: "Yes. Add delivery when you book and we'll drop the car wherever your event is happening, then collect it afterwards. The fee is shown per car on its listing.",
+    a: "Yes, and it's free. Add delivery when you book and we'll drop the car wherever your event is happening, then collect it afterwards.",
   },
   {
     q: "Is insurance included?",

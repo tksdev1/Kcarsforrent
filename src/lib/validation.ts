@@ -83,8 +83,6 @@ export const carSchema = z.object({
   features: z.string().max(2000).optional().default(""),
   dailyRate: z.coerce.number().min(0).max(100000),
   weekendRate: z.coerce.number().min(0).max(100000).optional(),
-  deliveryFee: z.coerce.number().min(0).max(100000),
-  cleaningFee: z.coerce.number().min(0).max(100000),
   minDays: z.coerce.number().int().min(1).max(30),
   active: z.boolean(),
   sortOrder: z.coerce.number().int().min(0).max(999),

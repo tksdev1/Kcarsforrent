@@ -89,7 +89,7 @@ export function customerRequestReceived(booking: Booking): RenderedEmail {
       <h2 style="margin:0 0 12px;font-size:16px;font-weight:700;">Estimated cost</h2>
       ${quoteBlock(booking)}
       <p style="margin:0 0 24px;font-size:13px;line-height:1.6;color:#7c6069;">
-        This estimate covers the rental, prep and any delivery. A refundable
+        The daily rate is the full price — no cleaning, prep or delivery fees. A refundable
         ${escapeHtml(formatMoney(site.securityDeposit))} security hold is taken at pick-up and released on return.
       </p>
       ${button({ label: "See the full fleet", url: `${site.url}/fleet` })}

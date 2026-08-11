@@ -5,7 +5,6 @@ export interface QuoteInput {
   car: Car;
   startDate: string;
   endDate: string;
-  deliveryRequested: boolean;
 }
 
 /**
@@ -15,12 +14,7 @@ export interface QuoteInput {
  * confirms them, so nothing here touches a payment processor. Weekend days
  * (Fri/Sat/Sun) use the car's weekend rate when one is set.
  */
-export function buildQuote({
-  car,
-  startDate,
-  endDate,
-  deliveryRequested,
-}: QuoteInput): Quote {
+export function buildQuote({ car, startDate, endDate }: QuoteInput): Quote {
   const days = Math.max(1, rentalDays(startDate, endDate));
   const dates = eachDate(startDate, endDate);
 
@@ -56,13 +50,8 @@ export function buildQuote({
     }
   }
 
-  if (car.cleaningFee > 0) {
-    lines.push({ label: "Cleaning & prep", amount: car.cleaningFee });
-  }
-
-  if (deliveryRequested && car.deliveryFee > 0) {
-    lines.push({ label: "Delivery & pickup", amount: car.deliveryFee });
-  }
+  // No cleaning/prep or delivery fees — the daily rate is the whole price.
+  // Delivery is still offered, it just doesn't cost extra.
 
   const total = lines.reduce((sum, line) => sum + line.amount, 0);
 

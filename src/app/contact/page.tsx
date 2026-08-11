@@ -27,7 +27,7 @@ export default function ContactPage() {
       <section className="container-page grid gap-12 py-14 lg:grid-cols-[1fr_1.2fr]">
         <div className="space-y-8">
           <div>
-            <h2 className="font-display text-xl font-extrabold">Call or email</h2>
+            <h2 className="font-display text-xl font-extrabold">Call us</h2>
             <div className="mt-4 space-y-2">
               <a
                 href={site.phoneHref}
@@ -35,12 +35,9 @@ export default function ContactPage() {
               >
                 {site.phone}
               </a>
-              <a
-                href={`mailto:${site.email}`}
-                className="block font-semibold text-ink-2 transition-colors hover:text-brand"
-              >
-                {site.email}
-              </a>
+              <p className="text-sm text-muted">
+                Prefer to write? Use the form — it reaches us the same way.
+              </p>
             </div>
           </div>
 

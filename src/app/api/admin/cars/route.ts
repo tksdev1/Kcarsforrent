@@ -74,8 +74,6 @@ export async function POST(request: Request) {
       .filter(Boolean),
     dailyRate: input.dailyRate,
     weekendRate: input.weekendRate === undefined ? undefined : input.weekendRate,
-    deliveryFee: input.deliveryFee,
-    cleaningFee: input.cleaningFee,
     minDays: input.minDays,
     active: input.active,
     sortOrder: input.sortOrder,

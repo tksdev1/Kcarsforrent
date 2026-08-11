@@ -110,8 +110,8 @@ export function BookingForm({ cars }: { cars: Car[] }) {
 
   const quote = useMemo(() => {
     if (!car || !startDate || !endDate || endDate < startDate) return null;
-    return buildQuote({ car, startDate, endDate, deliveryRequested });
-  }, [car, startDate, endDate, deliveryRequested]);
+    return buildQuote({ car, startDate, endDate });
+  }, [car, startDate, endDate]);
 
   const belowMinimum =
     car && startDate && endDate && endDate >= startDate
@@ -403,11 +403,9 @@ export function BookingForm({ cars }: { cars: Car[] }) {
               <span>
                 <span className="block text-sm font-bold">
                   Deliver it to me
-                  {car && car.deliveryFee > 0 && (
-                    <span className="ml-1.5 font-semibold text-muted">
-                      +{formatMoney(car.deliveryFee)}
-                    </span>
-                  )}
+                  <span className="ml-1.5 font-semibold text-muted">
+                    Free
+                  </span>
                 </span>
                 <span className="mt-0.5 block text-xs text-muted">
                   We’ll drop the car off and collect it afterwards.

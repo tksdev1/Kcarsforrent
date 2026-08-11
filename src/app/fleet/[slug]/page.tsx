@@ -186,16 +186,12 @@ export default async function CarPage({ params }: PageProps) {
 
             <ul className="mt-5 space-y-1.5 border-t border-line pt-5 text-sm text-muted">
               <li className="flex justify-between gap-4">
-                <span>Cleaning &amp; prep (per booking)</span>
-                <span className="font-semibold text-ink-2">
-                  {formatMoney(car.cleaningFee)}
-                </span>
+                <span>Cleaning &amp; prep</span>
+                <span className="font-semibold text-ink-2">Included</span>
               </li>
               <li className="flex justify-between gap-4">
                 <span>Delivery &amp; pickup (optional)</span>
-                <span className="font-semibold text-ink-2">
-                  {formatMoney(car.deliveryFee)}
-                </span>
+                <span className="font-semibold text-ink-2">Included</span>
               </li>
               <li className="flex justify-between gap-4">
                 <span>Refundable security hold</span>

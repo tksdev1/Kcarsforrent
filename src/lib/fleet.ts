@@ -12,7 +12,7 @@ const META_KEY = "fleet-meta";
  * data up on the next request. Sites that HAVE been edited there keep their
  * version — the dashboard always wins, so bumping this can't destroy real work.
  */
-const SEED_VERSION = 3;
+const SEED_VERSION = 4;
 
 /**
  * The starter car.
@@ -53,11 +53,9 @@ export const SEED_FLEET: Car[] = [
       "Full Hello Kitty wrap with lit \u201cRent Me!\u201d roof sign",
       "Unlimited smiles and attention everywhere you go",
     ],
-    dailyRate: 179,
+    dailyRate: 175,
     // No weekend premium — one rate every day. Leaving weekendRate unset makes
     // the quote show a single "Rental — N days" line instead of splitting it.
-    deliveryFee: 60,
-    cleaningFee: 45,
     minDays: 1,
     active: true,
     sortOrder: 1,

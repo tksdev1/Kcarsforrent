@@ -20,8 +20,6 @@ type Draft = {
   features: string;
   dailyRate: string;
   weekendRate: string;
-  deliveryFee: string;
-  cleaningFee: string;
   minDays: string;
   active: boolean;
   sortOrder: string;
@@ -38,10 +36,8 @@ const EMPTY: Draft = {
   image: "",
   accent: "#d6206a",
   features: "",
-  dailyRate: "179",
+  dailyRate: "175",
   weekendRate: "",
-  deliveryFee: "60",
-  cleaningFee: "45",
   minDays: "1",
   active: true,
   sortOrder: "10",
@@ -62,8 +58,6 @@ function toDraft(car: Car): Draft {
     features: car.features.join("\n"),
     dailyRate: String(car.dailyRate),
     weekendRate: car.weekendRate === undefined ? "" : String(car.weekendRate),
-    deliveryFee: String(car.deliveryFee),
-    cleaningFee: String(car.cleaningFee),
     minDays: String(car.minDays),
     active: car.active,
     sortOrder: String(car.sortOrder),
@@ -258,8 +252,6 @@ export function FleetManager({ cars }: { cars: Car[] }) {
               onChange={(v) => set("weekendRate", v)}
               hint="Leave blank to charge the daily rate every day."
             />
-            <Text label="Delivery fee" type="number" value={draft.deliveryFee} error={errors.deliveryFee} onChange={(v) => set("deliveryFee", v)} />
-            <Text label="Cleaning & prep fee" type="number" value={draft.cleaningFee} error={errors.cleaningFee} onChange={(v) => set("cleaningFee", v)} />
             <Text label="Minimum days" type="number" value={draft.minDays} error={errors.minDays} onChange={(v) => set("minDays", v)} />
             <Text
               label="Sort order"

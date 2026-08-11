@@ -24,12 +24,7 @@ function sampleBooking(car: Car): Booking {
 
   // Price it through the real quote builder rather than hand-assembling
   // lines, so the preview can't drift from what customers are actually sent.
-  const quote = buildQuote({
-    car,
-    startDate: start,
-    endDate: end,
-    deliveryRequested: true,
-  });
+  const quote = buildQuote({ car, startDate: start, endDate: end });
 
   return {
     id: "bk_sample",

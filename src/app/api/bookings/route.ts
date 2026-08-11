@@ -134,7 +134,6 @@ export async function POST(request: Request) {
       car,
       startDate: input.startDate,
       endDate: input.endDate,
-      deliveryRequested: input.deliveryRequested,
     }),
     ownerNote: "",
     createdAt: now,

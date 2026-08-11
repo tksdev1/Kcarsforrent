@@ -112,12 +112,9 @@ export function SiteFooter() {
             >
               {site.phone}
             </a>
-            <a
-              href={`mailto:${site.email}`}
-              className="block transition-colors hover:text-brand"
-            >
-              {site.email}
-            </a>
+            <Link href="/contact" className="block transition-colors hover:text-brand">
+              Send us a message
+            </Link>
           </div>
         </div>
       </div>

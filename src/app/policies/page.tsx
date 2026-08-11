@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { formatMoney, site } from "@/lib/site";
 
@@ -39,7 +40,7 @@ const SECTIONS = [
     items: [
       `A refundable security hold of ${formatMoney(site.securityDeposit)} is placed on a valid payment card at pick-up.`,
       "The hold is released after the vehicle is returned and inspected, typically within a few business days depending on your bank.",
-      "The rental balance, including any delivery and cleaning fees, is payable before the keys are handed over.",
+      "The rental balance is payable before the keys are handed over. The daily rate is the full price — there are no cleaning, prep or delivery fees.",
     ],
   },
   {
@@ -64,9 +65,9 @@ const SECTIONS = [
   {
     title: "Delivery and collection",
     items: [
-      "Delivery is optional and priced per vehicle, shown on each listing.",
+      "Delivery is optional and free — just ask for it when you book.",
       "Someone aged 21 or over with the booking's driver licence must be present to receive the vehicle.",
-      "If nobody is available at the agreed time and place, a re-delivery fee may apply.",
+      "If nobody is available at the agreed time and place, we may need to reschedule the drop-off.",
     ],
   },
   {
@@ -90,7 +91,7 @@ const SECTIONS = [
     items: [
       "We collect only what we need to handle your booking: your name, email, phone number, dates and any notes you send us.",
       "We use it to confirm and service your rental, and we don't sell it or share it with third parties for marketing.",
-      "Email us at " + site.email + " to ask what we hold about you, or to have it deleted.",
+      "Contact us through the form on the contact page, or by phone, to ask what we hold about you or to have it deleted.",
     ],
   },
 ];
@@ -136,10 +137,10 @@ export default function PoliciesPage() {
           ))}
 
           <p className="border-t border-line pt-8 text-sm text-muted">
-            Questions about any of this? Call {site.phone} or email{" "}
-            <a href={`mailto:${site.email}`} className="font-bold text-brand underline">
-              {site.email}
-            </a>
+            Questions about any of this? Call {site.phone} or{" "}
+            <Link href="/contact" className="font-bold text-brand underline">
+              send us a message
+            </Link>
             .
           </p>
         </div>
