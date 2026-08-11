@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { LOGO_HEIGHT, LOGO_SRC, LOGO_WIDTH } from "@/lib/logo";
 import { site } from "@/lib/site";
 
 const FLEET_LINKS = [
@@ -16,7 +17,7 @@ const INFO_LINKS = [
   { href: "/contact", label: "Contact us" },
 ];
 
-export function SiteFooter({ logoSrc }: { logoSrc: string | null }) {
+export function SiteFooter() {
   const pathname = usePathname();
 
   // The dashboard is an internal tool; the public marketing footer — fleet
@@ -29,14 +30,14 @@ export function SiteFooter({ logoSrc }: { logoSrc: string | null }) {
       <div className="container-page grid gap-10 py-14 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-2.5">
-            {logoSrc ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoSrc} alt={site.name} className="h-26 w-auto" />
-            ) : (
-              <span className="font-display text-lg font-extrabold tracking-tight">
-                {site.name}
-              </span>
-            )}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={LOGO_SRC}
+              width={LOGO_WIDTH}
+              height={LOGO_HEIGHT}
+              alt={site.name}
+              className="h-26 w-auto"
+            />
           </div>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
             {site.shortDescription}
