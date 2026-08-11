@@ -6,6 +6,7 @@ import {
 } from "@/emails/templates";
 import {
   checkAvailability,
+  findOwnPendingRequest,
   newBookingId,
   newReference,
   saveBooking,
@@ -27,7 +28,30 @@ function outcomeOf(result: SendResult): EmailOutcome {
   return result.skipped ? "not-configured" : "failed";
 }
 
+/**
+ * Anything thrown below — a Blobs read that fails, a storage write that
+ * doesn't land — would otherwise escape as Next's HTML error page. The browser
+ * then fails to parse it as JSON and the customer gets a blank "we couldn't
+ * submit that", with the real cause visible nowhere. Catching it here keeps
+ * the response shape the form understands and puts the actual error in the
+ * function log, which is the only place it can be diagnosed from.
+ */
 export async function POST(request: Request) {
+  try {
+    return await handleBooking(request);
+  } catch (err) {
+    console.error("[bookings] Unhandled failure:", err);
+    return NextResponse.json(
+      {
+        message:
+          "Something went wrong on our end and your request wasn't saved. Please try again, or call us and we'll take the booking over the phone.",
+      },
+      { status: 500 },
+    );
+  }
+}
+
+async function handleBooking(request: Request) {
   let payload: unknown;
   try {
     payload = await request.json();
@@ -99,6 +123,30 @@ export async function POST(request: Request) {
     input.endDate,
   );
   if (!availability.available) {
+    // Before refusing, check whether the thing blocking these dates is this
+    // customer's own request. If so they've simply submitted twice, and the
+    // right answer is the reference they already have — not an error telling
+    // them the dates they just booked are unavailable.
+    const own = await findOwnPendingRequest(
+      car.id,
+      input.email,
+      input.startDate,
+      input.endDate,
+    );
+    if (own) {
+      return NextResponse.json(
+        {
+          reference: own.reference,
+          status: own.status,
+          emailed: {
+            customer: own.emailDelivery?.customer === "sent",
+            owner: own.emailDelivery?.owner === "sent",
+          },
+        },
+        { status: 200 },
+      );
+    }
+
     return NextResponse.json(
       {
         message: availability.reason ?? "Those dates are no longer available.",
