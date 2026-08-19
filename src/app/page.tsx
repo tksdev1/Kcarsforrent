@@ -28,7 +28,7 @@ export default async function HomePage() {
         // Flat rate, so no "from". Vehicle specs deliberately aren't advertised
         // here — people book this car for how it looks, not its seat count.
         { label: "Daily rate", value: formatMoney(soloCar.dailyRate) },
-        { label: "Delivery", value: "Available" },
+        { label: "Confirmation", value: "Within 24 hrs" },
       ]
     : [
         { label: "Cars in the fleet", value: String(cars.length) },
@@ -36,7 +36,7 @@ export default async function HomePage() {
           label: "Daily rates from",
           value: fromPrice ? formatMoney(fromPrice) : "—",
         },
-        { label: "Delivery", value: "Available" },
+        { label: "Confirmation", value: "Within 24 hrs" },
       ];
 
   return (
@@ -249,12 +249,12 @@ export default async function HomePage() {
               <Link href="/book" className="btn btn-primary px-7 py-4 text-base">
                 Request a booking
               </Link>
-              <a
-                href={site.phoneHref}
+              <Link
+                href="/contact"
                 className="btn px-7 py-4 text-base border-[1.5px] border-white/25 text-white hover:border-white"
               >
-                Call {site.phone}
-              </a>
+                Ask a question
+              </Link>
             </div>
           </div>
         </div>

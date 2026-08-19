@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-import { site } from "@/lib/site";
 
 export function ContactForm() {
   const [name, setName] = useState("");
@@ -37,7 +36,8 @@ export function ContactForm() {
       setSent(true);
     } catch {
       setErrors({
-        form: `We couldn't send that. Please call us on ${site.phone}.`,
+        form:
+          "We couldn't send that — it may have been a connection blip. Please check your connection and try again.",
       });
       setSubmitting(false);
     }
@@ -53,8 +53,8 @@ export function ContactForm() {
           Message sent
         </h2>
         <p className="mx-auto mt-3 max-w-sm text-muted">
-          Thanks {name.split(" ")[0]} — we’ll get back to you shortly. If it’s
-          urgent, give us a call on {site.phone}.
+          Thanks {name.split(" ")[0]} — we read every message ourselves and
+          we’ll get back to you within 24 hours.
         </p>
       </div>
     );

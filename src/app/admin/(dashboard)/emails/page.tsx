@@ -24,12 +24,7 @@ function sampleBooking(car: Car): Booking {
 
   // Price it through the real quote builder rather than hand-assembling
   // lines, so the preview can't drift from what customers are actually sent.
-  const quote = buildQuote({
-    car,
-    startDate: start,
-    endDate: end,
-    deliveryRequested: true,
-  });
+  const quote = buildQuote({ car, startDate: start, endDate: end });
 
   return {
     id: "bk_sample",
@@ -46,8 +41,6 @@ function sampleBooking(car: Car): Booking {
     pickupTime: "10:00",
     dropoffTime: "17:00",
     occasion: "Quinceañera",
-    deliveryRequested: true,
-    deliveryAddress: "1420 W Main St, Visalia, CA",
     notes: "Arriving at the venue for 2pm — please leave the roof sign lit.",
     status: "pending",
     quote,

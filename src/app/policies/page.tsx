@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
-import { formatMoney, site } from "@/lib/site";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Rental policies",
-  description: `Rental terms for ${site.name} — eligibility, deposits, delivery, damage and cancellations.`,
+  description: `Rental terms for ${site.name} — eligibility, payment, pick-up, damage and cancellations.`,
 };
 
 /**
@@ -35,11 +36,10 @@ const SECTIONS = [
     ],
   },
   {
-    title: "Deposits and payment",
+    title: "Payment",
     items: [
-      `A refundable security hold of ${formatMoney(site.securityDeposit)} is placed on a valid payment card at pick-up.`,
-      "The hold is released after the vehicle is returned and inspected, typically within a few business days depending on your bank.",
-      "The rental balance, including any delivery and cleaning fees, is payable before the keys are handed over.",
+      "Submitting the booking form costs nothing and charges nothing — it is a request, not a confirmed rental.",
+      "The rental balance is payable before the keys are handed over. The daily rate is the full price — no added fees and no security deposit.",
     ],
   },
   {
@@ -62,11 +62,11 @@ const SECTIONS = [
     ],
   },
   {
-    title: "Delivery and collection",
+    title: "Pick-up and return",
     items: [
-      "Delivery is optional and priced per vehicle, shown on each listing.",
-      "Someone aged 21 or over with the booking's driver licence must be present to receive the vehicle.",
-      "If nobody is available at the agreed time and place, a re-delivery fee may apply.",
+      "The vehicle is collected and returned in person at the agreed time and place.",
+      "The named driver must be present with the physical licence used to make the booking.",
+      "If you're running late or need to change the time, message us as early as you can and we'll do our best to accommodate it.",
     ],
   },
   {
@@ -90,7 +90,7 @@ const SECTIONS = [
     items: [
       "We collect only what we need to handle your booking: your name, email, phone number, dates and any notes you send us.",
       "We use it to confirm and service your rental, and we don't sell it or share it with third parties for marketing.",
-      "Email us at " + site.email + " to ask what we hold about you, or to have it deleted.",
+      "Send us a message from the contact page to ask what we hold about you, or to have it deleted.",
     ],
   },
 ];
@@ -136,11 +136,11 @@ export default function PoliciesPage() {
           ))}
 
           <p className="border-t border-line pt-8 text-sm text-muted">
-            Questions about any of this? Call {site.phone} or email{" "}
-            <a href={`mailto:${site.email}`} className="font-bold text-brand underline">
-              {site.email}
-            </a>
-            .
+            Questions about any of this?{" "}
+            <Link href="/contact" className="font-bold text-brand underline">
+              Send us a message
+            </Link>{" "}
+            and we’ll answer before you book.
           </p>
         </div>
       </section>

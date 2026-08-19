@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { ContactForm } from "@/components/ContactForm";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: `Get in touch with ${site.name} about themed Kei car rentals, availability and delivery.`,
+  description: `Get in touch with ${site.name} about themed Kei car rentals, availability and dates.`,
 };
 
 export default function ContactPage() {
@@ -27,20 +28,19 @@ export default function ContactPage() {
       <section className="container-page grid gap-12 py-14 lg:grid-cols-[1fr_1.2fr]">
         <div className="space-y-8">
           <div>
-            <h2 className="font-display text-xl font-extrabold">Call or email</h2>
+            <h2 className="font-display text-xl font-extrabold">
+              How to reach us
+            </h2>
             <div className="mt-4 space-y-2">
-              <a
-                href={site.phoneHref}
-                className="block font-display text-2xl font-extrabold transition-colors hover:text-brand"
-              >
-                {site.phone}
-              </a>
-              <a
-                href={`mailto:${site.email}`}
-                className="block font-semibold text-ink-2 transition-colors hover:text-brand"
-              >
-                {site.email}
-              </a>
+              <p className="text-sm leading-relaxed text-muted">
+                Send us a message with the form and we’ll come straight back to
+                you — usually the same day, always within 24 hours. Ready to
+                book? The{" "}
+                <Link href="/book" className="font-bold text-brand underline">
+                  booking form
+                </Link>{" "}
+                takes your dates directly.
+              </p>
             </div>
           </div>
 
@@ -59,8 +59,8 @@ export default function ContactPage() {
           <div>
             <h2 className="font-display text-xl font-extrabold">Where we go</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              Based in {site.city}, {site.region}. Pick up from us, or add
-              delivery when you book and we’ll bring the car to you in:
+              Based in {site.city}, {site.region}, and renting to customers
+              across:
             </p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {site.serviceTowns.map((town) => (

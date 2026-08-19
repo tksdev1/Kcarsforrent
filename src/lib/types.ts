@@ -37,10 +37,6 @@ export interface Car {
   dailyRate: number;
   /** Optional Fri/Sat/Sun rate. Falls back to dailyRate when unset. */
   weekendRate?: number;
-  /** One-off fee added when the customer wants the car delivered. */
-  deliveryFee: number;
-  /** One-off cleaning/prep fee added to every booking. */
-  cleaningFee: number;
   minDays: number;
   /** Inactive cars stay in the database but are hidden from the public site. */
   active: boolean;
@@ -80,8 +76,6 @@ export interface Booking {
   pickupTime: string;
   dropoffTime: string;
   occasion: string;
-  deliveryRequested: boolean;
-  deliveryAddress: string;
   notes: string;
   status: BookingStatus;
   /** Estimated total at time of request, in whole currency units. */

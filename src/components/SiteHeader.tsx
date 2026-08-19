@@ -66,12 +66,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <a
-            href={site.phoneHref}
-            className="hidden text-sm font-bold text-ink-2 transition-colors hover:text-brand lg:block"
-          >
-            {site.phone}
-          </a>
           <Link href="/book" className="btn btn-primary hidden sm:inline-flex">
             Book a car
           </Link>
@@ -119,12 +113,6 @@ export function SiteHeader() {
             <Link href="/book" className="btn btn-primary mt-4">
               Book a car
             </Link>
-            <a
-              href={site.phoneHref}
-              className="mt-3 py-2 text-center text-sm font-bold text-muted"
-            >
-              or call {site.phone}
-            </a>
           </nav>
         </div>
       )}

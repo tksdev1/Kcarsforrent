@@ -164,6 +164,36 @@ export async function checkAvailability(
 }
 
 /**
+ * The same person's own already-recorded request for exactly these dates.
+ *
+ * A pending request blocks its own dates, so a customer who submits twice —
+ * a double-click, a refresh, or a retry after the first response was slow to
+ * come back — collides with themselves and gets told the dates are taken.
+ * That reads as the site being broken when in fact their booking went through.
+ * Matching on car, dates and email lets the route hand back the reference it
+ * already has instead.
+ */
+export async function findOwnPendingRequest(
+  carId: string,
+  email: string,
+  startDate: string,
+  endDate: string,
+): Promise<Booking | null> {
+  const all = await getAllBookings();
+  const target = email.trim().toLowerCase();
+  return (
+    all.find(
+      (booking) =>
+        booking.carId === carId &&
+        booking.startDate === startDate &&
+        booking.endDate === endDate &&
+        booking.status === "pending" &&
+        booking.customer.email.trim().toLowerCase() === target,
+    ) ?? null
+  );
+}
+
+/**
  * Every date in the next `days` days on which this car is already spoken for.
  * Used to grey out dates in the booking calendar.
  */

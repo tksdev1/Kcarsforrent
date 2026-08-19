@@ -39,13 +39,6 @@ function bookingRows(booking: Booking) {
     rows.push({ label: "Occasion", value: escapeHtml(booking.occasion) });
   }
 
-  rows.push({
-    label: "Delivery",
-    value: booking.deliveryRequested
-      ? `Yes — ${escapeHtml(booking.deliveryAddress || "address to confirm")}`
-      : "No — pick up in person",
-  });
-
   return rows;
 }
 
@@ -67,9 +60,6 @@ function plainSummary(booking: Booking): string {
     `Drop-off: ${formatDateLong(booking.endDate)} at ${formatTime(booking.dropoffTime)}`,
     `Duration: ${booking.quote.days} day(s)`,
     booking.occasion ? `Occasion: ${booking.occasion}` : null,
-    booking.deliveryRequested
-      ? `Delivery: Yes — ${booking.deliveryAddress || "address to confirm"}`
-      : "Delivery: No — pick up in person",
     `Estimated total: ${formatMoney(booking.quote.total)}`,
   ]
     .filter(Boolean)
@@ -89,12 +79,12 @@ export function customerRequestReceived(booking: Booking): RenderedEmail {
       <h2 style="margin:0 0 12px;font-size:16px;font-weight:700;">Estimated cost</h2>
       ${quoteBlock(booking)}
       <p style="margin:0 0 24px;font-size:13px;line-height:1.6;color:#7c6069;">
-        This estimate covers the rental, prep and any delivery. A refundable
-        ${escapeHtml(formatMoney(site.securityDeposit))} security hold is taken at pick-up and released on return.
+        The daily rate is the full price — no added fees and no security
+        deposit. Nothing is charged until pick-up.
       </p>
       ${button({ label: "See the full fleet", url: `${site.url}/fleet` })}
     `,
-    footerNote: `Need to change something? Reply to this email or call us and quote <strong>${escapeHtml(booking.reference)}</strong>.`,
+    footerNote: `Need to change something? Just reply to this email and quote <strong>${escapeHtml(booking.reference)}</strong>.`,
   });
 
   const text = `Thanks, ${booking.customer.name.split(" ")[0]} — we've got your request.
@@ -105,9 +95,9 @@ THIS IS NOT A CONFIRMED BOOKING YET. Nothing has been charged.
 
 ${plainSummary(booking)}
 
-A refundable ${formatMoney(site.securityDeposit)} security hold is taken at pick-up and released on return.
+The daily rate is the full price — no added fees and no security deposit. Nothing is charged until pick-up.
 
-Need to change something? Reply to this email or call ${site.phone} and quote ${booking.reference}.
+Need to change something? Just reply to this email and quote ${booking.reference}.
 
 ${site.name} — ${site.url}`;
 
@@ -185,7 +175,7 @@ export function customerConfirmed(booking: Booking): RenderedEmail {
       <h2 style="margin:0 0 12px;font-size:16px;font-weight:700;">What to bring</h2>
       <ul style="margin:0 0 24px;padding-left:20px;font-size:14px;line-height:1.8;color:#4a343e;">
         <li>A valid driver's licence (minimum age ${site.minimumAge})</li>
-        <li>A payment card for the balance and the refundable ${escapeHtml(formatMoney(site.securityDeposit))} hold</li>
+        <li>A payment card for the balance</li>
         <li>Proof of insurance, if you're using your own</li>
       </ul>
       ${
@@ -206,12 +196,12 @@ ${plainSummary(booking)}
 
 What to bring:
   - A valid driver's licence (minimum age ${site.minimumAge})
-  - A payment card for the balance and the refundable ${formatMoney(site.securityDeposit)} hold
+  - A payment card for the balance
   - Proof of insurance, if you're using your own
 ${booking.ownerNote ? `\nA note from us:\n${booking.ownerNote}\n` : ""}
 Plans changed? Let us know at least 48 hours ahead and quote ${booking.reference}.
 
-${site.name} — ${site.phone} — ${site.url}`;
+${site.name} — ${site.url}`;
 
   return {
     subject: `Confirmed: ${booking.carName} on ${formatDateLong(booking.startDate)} (${booking.reference})`,
@@ -258,7 +248,7 @@ ${plainSummary(booking)}
 ${booking.ownerNote ? `\nA note from us:\n${booking.ownerNote}\n` : ""}
 Other cars and other dates may well be open: ${site.url}/fleet
 
-${site.name} — ${site.phone} — ${site.url}`;
+${site.name} — ${site.url}`;
 
   return { subject: `${heading} — ${booking.reference}`, html, text };
 }
